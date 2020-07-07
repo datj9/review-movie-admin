@@ -4,6 +4,9 @@ import {
     FETCH_TUTORIALS_FAILURE,
     UPLOAD_IMAGE_SUCCESS,
     UPLOAD_IMAGE_START,
+    CREATE_TUTORIAL_START,
+    CREATE_TUTORIAL_SUCCESS,
+    CREATE_TUTORIAL_FAILURE,
 } from "./action-types";
 
 const INITIAL_STATE = {
@@ -43,6 +46,23 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 isUploading: false,
                 linkUrl: action.payload,
+            };
+        case CREATE_TUTORIAL_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case CREATE_TUTORIAL_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                tutorials: state.tutorials.concat([action.payload]),
+            };
+        case CREATE_TUTORIAL_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
             };
         default:
             return state;
