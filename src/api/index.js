@@ -1,5 +1,5 @@
 import axios from "axios";
-export const apiUrl = "http://localhost:5000";
+export const apiUrl = "https://code-class.herokuapp.com";
 const api = axios.create({
     baseURL: `${apiUrl}/api`,
 });
@@ -24,7 +24,11 @@ const BaseApi = () => {
 
         async post(endpoint, body, contentType) {
             try {
-                const res = await api.post(endpoint, body, contentType === "formData" && { headers: { "content-type": "multipart/form-data" } });
+                const res = await api.post(
+                    endpoint,
+                    body,
+                    contentType === "formData" && { headers: { "content-type": "multipart/form-data" } }
+                );
                 return res.data;
             } catch (error) {
                 return error.response.data;
