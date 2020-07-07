@@ -20,7 +20,11 @@ class HomePage extends React.Component {
                 <hr />
                 <div className='d-flex flex-wrap'>
                     {tutorials.map((tutorial) => (
-                        <Link className='card-item' key={tutorial.id} to={`/tutorials/${tutorial.id}`}>
+                        <Link
+                            className='card-item text-decoration-none'
+                            key={tutorial.id}
+                            to={`/tutorials/${tutorial.id}`}
+                        >
                             <Card>
                                 <CardImg src={tutorial.thumbnailUrl} />
                                 <CardBody>
