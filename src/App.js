@@ -1,37 +1,43 @@
 import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "shards-ui/dist/css/shards.min.css";
 import "./App.css";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import UploadAdapter from "./adapter/UploadAdapter";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
+import AdminPage from "./pages/AdminPage";
+import CreateTutorialPage from "./pages/CreateTutorialPage";
+import checkToken from "./utils/checkToken";
+import { connect } from "react-redux";
+import { setUser } from "./redux/user/actions";
 
 class App extends Component {
+    componentDidMount() {
+        const { isValid, user } = checkToken();
+        if (isValid) {
+            this.props.setUser(user);
+        }
+    }
     render() {
         return (
-            <div className='App'>
-                <h2>Using CKEditor 5 build in React</h2>
-                <CKEditor
-                    editor={ClassicEditor}
-                    data='<p></p>'
-                    onInit={(editor) => {
-                        editor.ui.view.editable.element.style.height = "200px";
-                        editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
-                            return new UploadAdapter(loader);
-                        };
-                    }}
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                        console.log({ event, editor, data });
-                    }}
-                    onBlur={(event, editor) => {
-                        console.log("Blur.", editor);
-                    }}
-                    onFocus={(event, editor) => {
-                        console.log("Focus.", editor);
-                    }}
-                />
-            </div>
+            <Router>
+                <Header />
+                <Switch>
+                    <Route exact path='/' component={HomePage} />
+                    <Route exact path='/sign-up' component={SignUpPage} />
+                    <Route exact path='/sign-in' component={SignInPage} />
+                    <Route exact path='/admin/tutorials' component={AdminPage} />
+                    <Route exact path='/admin/tutorials/create-tutorial' component={CreateTutorialPage} />
+                </Switch>
+            </Router>
         );
     }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+    setUser: (user) => dispatch(setUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);

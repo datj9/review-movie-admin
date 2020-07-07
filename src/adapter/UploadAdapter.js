@@ -1,4 +1,6 @@
-import axios from "axios";
+import BaseApi from "../api";
+
+const api = BaseApi();
 
 class UploadAdapter {
     constructor(loader) {
@@ -10,21 +12,12 @@ class UploadAdapter {
     async upload() {
         const file = await this.loader.file;
         const formData = new FormData();
-        formData.append("profile", file);
-        console.log(this.loader);
+        formData.append("image", file);
+
         try {
-            const res = await axios({
-                url: `https://chat-app-datng.herokuapp.com/api/users/upload`,
-                method: "post",
-                data: formData,
-                headers: {
-                    token:
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWE2OTBhZjUzZDc3MDAxNzdkNjdlYyIsImVtYWlsIjoidGFuZGF0MTk4QGdtYWlsLmNvbSIsIm5hbWUiOiJEYXQgTmd1eWVuIiwiaWF0IjoxNTkzOTI1NTc0LCJleHAiOjE1OTM5MzI3NzR9.1KYN3jbjvJ6_wLy5Ogdcmg-vKsjgva_B17oOMUIlhsI",
-                    "content-type": "multipart/form-data",
-                },
-            });
-            res.data.default = res.data.linkUrl;
-            return res.data;
+            const data = await api.post("/tutorials/upload-image", formData, "formData");
+            data.default = data.linkUrl;
+            return data;
         } catch (error) {
             return error;
         }
