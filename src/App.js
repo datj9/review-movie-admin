@@ -12,6 +12,7 @@ import CreateTutorialPage from "./pages/CreateTutorialPage";
 import checkToken from "./utils/checkToken";
 import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
+import TutorialPage from "./pages/TutorialPage";
 
 class App extends Component {
     componentDidMount() {
@@ -28,6 +29,7 @@ class App extends Component {
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/sign-up' component={SignUpPage} />
                     <Route exact path='/sign-in' component={SignInPage} />
+                    <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                     <Route exact path='/admin/tutorials' component={AdminPage} />
                     <Route exact path='/admin/tutorials/create-tutorial' component={CreateTutorialPage} />
                 </Switch>

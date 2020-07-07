@@ -7,11 +7,15 @@ import {
     CREATE_TUTORIAL_START,
     CREATE_TUTORIAL_SUCCESS,
     CREATE_TUTORIAL_FAILURE,
+    FETCH_ONE_TUTORIAL_START,
+    FETCH_ONE_TUTORIAL_SUCCESS,
+    CLEAR_TUTORIAL,
 } from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
     tutorials: [],
+    tutorial: {},
     linkUrl: "",
     isUploading: false,
     error: {},
@@ -35,6 +39,22 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoading: false,
                 error: action.payload,
+            };
+        case FETCH_ONE_TUTORIAL_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case FETCH_ONE_TUTORIAL_SUCCESS:
+            return {
+                ...state,
+                tutorial: action.payload,
+                isLoading: false,
+            };
+        case CLEAR_TUTORIAL:
+            return {
+                ...state,
+                tutorial: {},
             };
         case UPLOAD_IMAGE_START:
             return {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Card, CardTitle, CardImg, CardBody, FormInput, Button } from "shards-react";
+import { FormInput, Button } from "shards-react";
 import { Link } from "react-router-dom";
+import TutorialsList from "../../components/TutorialsList";
 
 class AdminPage extends Component {
     render() {
@@ -12,29 +13,7 @@ class AdminPage extends Component {
                 <Link to='/admin/tutorials/create-tutorial'>
                     <Button className='mb-3'>Tạo Bài Hướng Dẫn</Button>
                 </Link>
-                <div className='d-flex flex-wrap'>
-                    <Card>
-                        <CardImg src='https://place-hold.it/300x200' />
-                        <CardBody>
-                            <CardTitle>Lorem Ipsum</CardTitle>
-                            <p>Đây là phần mô tả</p>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg src='https://place-hold.it/300x200' />
-                        <CardBody>
-                            <CardTitle>Lorem Ipsum</CardTitle>
-                            <p>Đây là phần mô tả</p>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg src='https://place-hold.it/300x200' />
-                        <CardBody>
-                            <CardTitle>Lorem Ipsum</CardTitle>
-                            <p>Đây là phần mô tả</p>
-                        </CardBody>
-                    </Card>
-                </div>
+                <TutorialsList />
             </div>
         );
     }

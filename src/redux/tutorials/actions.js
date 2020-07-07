@@ -8,6 +8,9 @@ import {
     CREATE_TUTORIAL_START,
     CREATE_TUTORIAL_SUCCESS,
     CREATE_TUTORIAL_FAILURE,
+    FETCH_ONE_TUTORIAL_START,
+    FETCH_ONE_TUTORIAL_SUCCESS,
+    CLEAR_TUTORIAL,
 } from "./action-types";
 import BaseApi from "../../api";
 
@@ -35,6 +38,31 @@ export const fetchTutorials = () => async (dispatch) => {
     } catch (error) {
         dispatch(fetchTutorialsFailure(error));
     }
+};
+
+const fetchOneTutorialStart = () => ({
+    type: FETCH_ONE_TUTORIAL_START,
+});
+
+const fetchOneTutorialSuccess = (tutorial) => ({
+    type: FETCH_ONE_TUTORIAL_SUCCESS,
+    payload: tutorial,
+});
+
+export const fetchOneTutorial = (id) => async (dispatch) => {
+    dispatch(fetchOneTutorialStart());
+    const data = await api.get(`/tutorials/${id}`);
+    if (data.id) {
+        dispatch(fetchOneTutorialSuccess(data));
+    }
+};
+
+export const clearTutorialStart = () => ({
+    type: CLEAR_TUTORIAL,
+});
+
+export const clearTutorial = () => (dispatch) => {
+    dispatch(clearTutorialStart());
 };
 
 const uploadImageStart = () => ({
