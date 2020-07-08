@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Card, CardTitle, CardImg, CardBody, CardFooter, Button } from "shards-react";
 import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
+import moment from "moment";
 
 class TutorialsList extends Component {
     delTurorial = (id) => {
@@ -42,13 +43,16 @@ class TutorialsList extends Component {
                         className='card-item text-decoration-none text-dark'
                         key={tutorial.id}
                     >
-                        <Card>
-                            <CardImg src={tutorial.thumbnailUrl} />
-                            <CardBody>
-                                <CardTitle>{tutorial.title}</CardTitle>
-                                <p>{tutorial.description}</p>
-                            </CardBody>
-                        </Card>
+                        <img className='mr-3' src={tutorial.thumbnailUrl} alt='' />
+                        <div className='d-flex flex-column'>
+                            <h3>{tutorial.title}</h3>
+                            <h5>{tutorial.description}</h5>
+                            <span>
+                                {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
+                                    ? moment(tutorial.createdAt).fromNow()
+                                    : moment(tutorial.createdAt).format("MMMM DD")}
+                            </span>
+                        </div>
                     </Link>
                 ));
             }

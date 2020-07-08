@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import "./style.css";
 import { connect } from "react-redux";
 import { fetchOneTutorial, clearTutorial } from "../../redux/tutorials/actions";
 import { Button } from "shards-react";

@@ -54,8 +54,8 @@ class SignInPage extends Component {
         } else {
             return (
                 <div className='bg-primary sign-in'>
-                    <div className='container h-100 w-50 d-flex align-items-center justify-content-center'>
-                        <div className='w-75 h-75 px-3 d-flex justify-content-center flex-column shadow-lg rounded bg-white'>
+                    <div className='container h-100 w-100 position-relative'>
+                        <div className='form-container px-3 d-flex justify-content-center flex-column shadow-lg rounded bg-white'>
                             <h3 className='mb-3 text-center'>Đăng Nhập</h3>
                             <Form onSubmit={this.submitForm}>
                                 <FormGroup>
