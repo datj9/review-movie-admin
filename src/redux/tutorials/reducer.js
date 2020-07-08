@@ -16,10 +16,13 @@ import {
     UPDATE_TUTORIAL_SUCCESS,
     UPDATE_TUTORIAL_FAILURE,
     CLEAR_ERRORS_AND_LINK,
+    GET_SAVED_TUTORIALS_START,
+    GET_SAVED_TUTORIALS_SUCCESS,
 } from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
+    loaded: false,
     tutorials: [],
     tutorial: {},
     linkUrl: "",
@@ -129,6 +132,18 @@ export default (state = INITIAL_STATE, action) => {
                 error: "",
                 linkUrl: "",
                 message: "",
+            };
+        case GET_SAVED_TUTORIALS_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case GET_SAVED_TUTORIALS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                tutorials: action.payload,
+                loaded: true,
             };
         default:
             return state;

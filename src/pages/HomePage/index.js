@@ -5,8 +5,6 @@ import { fetchTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
 
 class HomePage extends React.Component {
-    state = {};
-
     componentDidMount() {
         this.props.fetchTutorialsReq();
     }

@@ -3,7 +3,7 @@ import "./style.css";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Card, CardTitle, CardImg, CardBody, CardFooter, Button } from "shards-react";
-import { fetchTutorials, deleteTutorial } from "../../redux/tutorials/actions";
+import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
 
 class TutorialsList extends Component {
@@ -11,12 +11,8 @@ class TutorialsList extends Component {
         this.props.delTurorialReq(id);
     };
 
-    componentDidMount() {
-        this.props.fetchTutorialsReq();
-    }
-
     render() {
-        const { tutorials, currentUser, isLoading } = this.props;
+        const { tutorials, currentUser, isLoading, pageSize = 8 } = this.props;
 
         const Tutorials = () => {
             if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
@@ -58,18 +54,21 @@ class TutorialsList extends Component {
             }
         };
 
-        return <div className='d-flex flex-wrap'>{isLoading ? <CardLoader numberOfCards={8} /> : <Tutorials />}</div>;
+        return (
+            <div className='d-flex flex-wrap'>
+                {isLoading ? <CardLoader numberOfCards={pageSize} /> : <Tutorials />}
+            </div>
+        );
     }
 }
 
 const mapStateToProps = (state) => ({
     tutorials: state.tutorial.tutorials,
-    currentUser: state.user.currentUser,
     isLoading: state.tutorial.isLoading,
+    currentUser: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchTutorialsReq: () => dispatch(fetchTutorials()),
     delTurorialReq: (id) => dispatch(deleteTutorial(id)),
 });
 

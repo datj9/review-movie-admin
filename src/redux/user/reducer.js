@@ -11,8 +11,6 @@ import {
     SAVE_TUTORIAL_START,
     SAVE_TUTORIAL_SUCCESS,
     SAVE_TUTORIAL_FAILURE,
-    GET_SAVED_TUTORIALS_START,
-    GET_SAVED_TUTORIALS_SUCCESS,
 } from "./action-types";
 
 const INITIAL_STATE = {
@@ -90,17 +88,6 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-            };
-        case GET_SAVED_TUTORIALS_START:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case GET_SAVED_TUTORIALS_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                savedTutorials: action.payload,
             };
         case CLEAR_ERRORS:
             return {

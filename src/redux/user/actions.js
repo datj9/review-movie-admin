@@ -9,8 +9,6 @@ import {
     SIGN_IN_SUCCESS,
     CLEAR_ERRORS,
     SAVE_TUTORIAL_START,
-    GET_SAVED_TUTORIALS_START,
-    GET_SAVED_TUTORIALS_SUCCESS,
     SAVE_TUTORIAL_SUCCESS,
     SAVE_TUTORIAL_FAILURE,
 } from "./action-types";
@@ -130,22 +128,5 @@ export const saveTutorial = (tutorialId) => async (dispatch) => {
         dispatch(saveTutorialSuccess(decoded.savedTutorials));
     } else {
         dispatch(saveTutorialFail(data));
-    }
-};
-
-const getSavedTutorialsStart = () => ({
-    type: GET_SAVED_TUTORIALS_START,
-});
-
-const getSavedTutorialsSuccess = (savedTutorials) => ({
-    type: GET_SAVED_TUTORIALS_SUCCESS,
-    payload: savedTutorials,
-});
-
-export const getSavedTutorials = () => async (dispatch) => {
-    dispatch(getSavedTutorialsStart());
-    const data = await api.get("/auth/saved-tutorials");
-    if (data.length) {
-        dispatch(getSavedTutorialsSuccess(data));
     }
 };

@@ -17,6 +17,8 @@ import {
     UPDATE_TUTORIAL_SUCCESS,
     UPDATE_TUTORIAL_FAILURE,
     CLEAR_ERRORS_AND_LINK,
+    GET_SAVED_TUTORIALS_START,
+    GET_SAVED_TUTORIALS_SUCCESS,
 } from "./action-types";
 import BaseApi from "../../api";
 
@@ -167,4 +169,21 @@ const clearErrorsAndLinkStart = () => ({
 
 export const clearErrorsAndLink = () => (dispatch) => {
     dispatch(clearErrorsAndLinkStart());
+};
+
+const getSavedTutorialsStart = () => ({
+    type: GET_SAVED_TUTORIALS_START,
+});
+
+const getSavedTutorialsSuccess = (savedTutorials) => ({
+    type: GET_SAVED_TUTORIALS_SUCCESS,
+    payload: savedTutorials,
+});
+
+export const getSavedTutorials = () => async (dispatch) => {
+    dispatch(getSavedTutorialsStart());
+    const data = await api.get("/auth/saved-tutorials");
+    if (data.length >= 0) {
+        dispatch(getSavedTutorialsSuccess(data));
+    }
 };

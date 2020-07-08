@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import { FormInput, Button } from "shards-react";
 import { Link } from "react-router-dom";
 import TutorialsList from "../../components/TutorialsList";
+import { fetchTutorials } from "../../redux/tutorials/actions";
+import { connect } from "react-redux";
 
 class AdminPage extends Component {
+    componentDidMount() {
+        this.props.fetchTutorialsReq();
+    }
+
     render() {
         return (
             <div className='container py-5'>
@@ -19,4 +25,8 @@ class AdminPage extends Component {
     }
 }
 
-export default AdminPage;
+const mapDispatchToProps = (dispatch) => ({
+    fetchTutorialsReq: () => dispatch(fetchTutorials()),
+});
+
+export default connect(null, mapDispatchToProps)(AdminPage);
