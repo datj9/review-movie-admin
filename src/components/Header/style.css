@@ -1,6 +1,7 @@
 .navbar {
     padding: 0.25rem 0;
     height: 4rem;
+    z-index: 2;
 }
 
 .brand {
