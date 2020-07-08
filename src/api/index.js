@@ -34,7 +34,18 @@ const BaseApi = () => {
                 return error.response.data;
             }
         },
-
+        async put(endpoint, body, contentType) {
+            try {
+                const res = await api.put(
+                    endpoint,
+                    body,
+                    contentType === "formData" && { headers: { "content-type": "multipart/form-data" } }
+                );
+                return res.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },
         async delete(endpoint) {
             try {
                 const res = await api.delete(endpoint);

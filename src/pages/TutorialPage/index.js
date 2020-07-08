@@ -31,6 +31,8 @@ class TutorialPage extends Component {
                     <rect x='0' y='65' rx='3' ry='3' width='200' height='6' />
                     <rect x='0' y='75' rx='3' ry='3' width='200' height='6' />
                     <rect x='0' y='85' rx='3' ry='3' width='200' height='6' />
+                    <rect x='0' y='95' rx='3' ry='3' width='200' height='6' />
+                    <rect x='0' y='105' rx='3' ry='3' width='200' height='6' />
                 </ContentLoader>
             );
         };
@@ -51,10 +53,12 @@ class TutorialPage extends Component {
                     <>
                         <h3 className='mb-3'>{tutorial.title}</h3>
                         <div className='mb-3 d-flex justify-content-between'>
-                            <span>Lượt xem: {tutorial.views}</span>
-                            <span>Đăng tải vào: {moment(tutorial.createdAt).format("DD-MM-YYYY")}</span>
+                            <div className='d-flex flex-column flex-start'>
+                                <span>Lượt xem: {tutorial.views}</span>
+                                <span>Đăng tải vào: {moment(tutorial.createdAt).format("DD-MM-YYYY")}</span>
+                            </div>
+                            <SaveTutorialButton />
                         </div>
-                        <SaveTutorialButton />
                         <div className='mt-5'>{parse(tutorial.content || "")}</div>
                     </>
                 )}

@@ -10,6 +10,12 @@ import {
     FETCH_ONE_TUTORIAL_START,
     FETCH_ONE_TUTORIAL_SUCCESS,
     CLEAR_TUTORIAL,
+    DELETE_TUTORIAL_START,
+    DELETE_TUTORIAL_SUCCESS,
+    UPDATE_TUTORIAL_START,
+    UPDATE_TUTORIAL_SUCCESS,
+    UPDATE_TUTORIAL_FAILURE,
+    CLEAR_ERRORS_AND_LINK,
 } from "./action-types";
 
 const INITIAL_STATE = {
@@ -19,6 +25,8 @@ const INITIAL_STATE = {
     linkUrl: "",
     isUploading: false,
     error: {},
+    errors: {},
+    message: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -77,12 +85,50 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoading: false,
                 tutorials: state.tutorials.concat([action.payload]),
+                message: "success",
             };
         case CREATE_TUTORIAL_FAILURE:
             return {
                 ...state,
                 isLoading: false,
-                error: action.payload,
+                errors: action.payload,
+            };
+        case DELETE_TUTORIAL_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case DELETE_TUTORIAL_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                tutorials: state.tutorials.filter((tutorial) => tutorial.id !== action.payload),
+            };
+        case UPDATE_TUTORIAL_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case UPDATE_TUTORIAL_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                message: "success",
+                errors: {},
+            };
+        case UPDATE_TUTORIAL_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                errors: action.payload,
+            };
+        case CLEAR_ERRORS_AND_LINK:
+            return {
+                ...state,
+                errors: {},
+                error: "",
+                linkUrl: "",
+                message: "",
             };
         default:
             return state;

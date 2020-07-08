@@ -11,6 +11,12 @@ import {
     FETCH_ONE_TUTORIAL_START,
     FETCH_ONE_TUTORIAL_SUCCESS,
     CLEAR_TUTORIAL,
+    DELETE_TUTORIAL_START,
+    DELETE_TUTORIAL_SUCCESS,
+    UPDATE_TUTORIAL_START,
+    UPDATE_TUTORIAL_SUCCESS,
+    UPDATE_TUTORIAL_FAILURE,
+    CLEAR_ERRORS_AND_LINK,
 } from "./action-types";
 import BaseApi from "../../api";
 
@@ -55,14 +61,6 @@ export const fetchOneTutorial = (id) => async (dispatch) => {
     if (data.id) {
         dispatch(fetchOneTutorialSuccess(data));
     }
-};
-
-export const clearTutorialStart = () => ({
-    type: CLEAR_TUTORIAL,
-});
-
-export const clearTutorial = () => (dispatch) => {
-    dispatch(clearTutorialStart());
 };
 
 const uploadImageStart = () => ({
@@ -113,4 +111,60 @@ export const createTutorial = (tutorial) => async (dispatch) => {
     } else {
         dispatch(createTutorialFail(data));
     }
+};
+
+const deleteTutorialStart = () => ({
+    type: DELETE_TUTORIAL_START,
+});
+
+const deleteTutorialSuccess = (id) => ({
+    type: DELETE_TUTORIAL_SUCCESS,
+    payload: id,
+});
+
+export const deleteTutorial = (id) => async (dispatch) => {
+    dispatch(deleteTutorialStart());
+    const data = await api.delete(`/tutorials/${id}`);
+    if (data.message) {
+        dispatch(deleteTutorialSuccess(id));
+    }
+};
+
+const updateTutorialStart = () => ({
+    type: UPDATE_TUTORIAL_START,
+});
+
+const updateTutorialSuccess = () => ({
+    type: UPDATE_TUTORIAL_SUCCESS,
+});
+
+const updateTutorialFail = (err) => ({
+    type: UPDATE_TUTORIAL_FAILURE,
+    payload: err,
+});
+
+export const updateTutorial = (id, updateData) => async (dispatch) => {
+    dispatch(updateTutorialStart());
+    const data = await api.put(`/tutorials/${id}`, updateData);
+    if (data.id) {
+        dispatch(updateTutorialSuccess());
+    } else {
+        dispatch(updateTutorialFail(data));
+    }
+};
+
+const clearTutorialStart = () => ({
+    type: CLEAR_TUTORIAL,
+});
+
+export const clearTutorial = () => (dispatch) => {
+    dispatch(clearTutorialStart());
+};
+
+const clearErrorsAndLinkStart = () => ({
+    type: CLEAR_ERRORS_AND_LINK,
+});
+
+export const clearErrorsAndLink = () => (dispatch) => {
+    dispatch(clearErrorsAndLinkStart());
 };
