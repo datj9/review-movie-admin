@@ -13,9 +13,6 @@ const Header = (props) => {
     const signOutReq = () => {
         dispatch(signOut());
     };
-    const openNav = () => {
-        setCollapse(true);
-    };
     const closeNav = () => {
         setCollapse(false);
     };
@@ -26,7 +23,7 @@ const Header = (props) => {
                 <NavLink to='/' className='brand text-dark text-decoration-none'>
                     Code Class
                 </NavLink>
-                <button onClick={openNav} type='button' className='navbar-toggler'>
+                <button onClick={() => setCollapse(!collapse)} type='button' className='navbar-toggler'>
                     <span className='navbar-toggler-icon'></span>
                 </button>
                 <div
