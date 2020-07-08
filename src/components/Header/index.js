@@ -25,27 +25,34 @@ const Header = (props) => {
                 <div className='collapse navbar-collapse justify-content-end'>
                     <ul className='navbar-nav'>
                         <li className='nav-item d-flex align-items-center'>
-                            <NavLink aria-current='page' className='nav-link active' to='/'>
+                            <NavLink className='nav-link' to='/'>
                                 Bài hướng dẫn
                             </NavLink>
                         </li>
+                        {isAuthenticated ? (
+                            <li className='nav-item d-flex align-items-center'>
+                                <NavLink className='nav-link' to='/users/saved-tutorials'>
+                                    Bài viết đã lưu
+                                </NavLink>
+                            </li>
+                        ) : null}
                         {currentUser?.userType === "admin" ? (
                             <li className='nav-item d-flex align-items-center'>
-                                <NavLink aria-current='page' className='nav-link active' to='/admin/tutorials'>
+                                <NavLink className='nav-link' to='/admin/tutorials'>
                                     Trang Admin
                                 </NavLink>
                             </li>
                         ) : null}
                         {isAuthenticated ? null : (
                             <li className='nav-item'>
-                                <NavLink aria-current='page' className='nav-link active' to='/sign-up'>
+                                <NavLink className='nav-link' to='/sign-up'>
                                     <Button pill>Đăng ký</Button>
                                 </NavLink>
                             </li>
                         )}
                         {isAuthenticated ? null : (
                             <li className='nav-item'>
-                                <NavLink aria-current='page' className='nav-link active' to='/sign-in'>
+                                <NavLink className='nav-link' to='/sign-in'>
                                     <Button pill outline>
                                         Đăng nhập
                                     </Button>
@@ -54,7 +61,7 @@ const Header = (props) => {
                         )}
                         {isAuthenticated ? (
                             <li className='nav-item'>
-                                <NavLink onClick={signOutReq} aria-current='page' className='nav-link active' to='/'>
+                                <NavLink onClick={signOutReq} className='nav-link' to='/'>
                                     <Button pill outline>
                                         Đăng xuất
                                     </Button>

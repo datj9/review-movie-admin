@@ -8,13 +8,20 @@ import {
     SIGN_IN_SUCCESS,
     SIGN_IN_FAILURE,
     CLEAR_ERRORS,
+    SAVE_TUTORIAL_START,
+    SAVE_TUTORIAL_SUCCESS,
+    SAVE_TUTORIAL_FAILURE,
+    GET_SAVED_TUTORIALS_START,
+    GET_SAVED_TUTORIALS_SUCCESS,
 } from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
     currentUser: {},
+    savedTutorials: [],
     isAuthenticated: false,
     errors: {},
+    message: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -67,10 +74,39 @@ export default (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 errors: action.payload,
             };
+        case SAVE_TUTORIAL_START:
+            return { ...state, isLoading: true };
+        case SAVE_TUTORIAL_SUCCESS:
+            const currentUser = state.currentUser;
+            currentUser.savedTutorials = action.payload;
+
+            return {
+                ...state,
+                isLoading: false,
+                currentUser,
+                message: "success",
+            };
+        case SAVE_TUTORIAL_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+            };
+        case GET_SAVED_TUTORIALS_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case GET_SAVED_TUTORIALS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                savedTutorials: action.payload,
+            };
         case CLEAR_ERRORS:
             return {
                 ...state,
                 errors: {},
+                message: "",
             };
         default:
             return state;

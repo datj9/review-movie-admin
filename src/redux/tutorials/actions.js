@@ -55,9 +55,9 @@ const fetchOneTutorialSuccess = (tutorial) => ({
     payload: tutorial,
 });
 
-export const fetchOneTutorial = (id) => async (dispatch) => {
+export const fetchOneTutorial = (tutorialId) => async (dispatch) => {
     dispatch(fetchOneTutorialStart());
-    const data = await api.get(`/tutorials/${id}`);
+    const data = await api.get(`/tutorials/${tutorialId}`);
     if (data.id) {
         dispatch(fetchOneTutorialSuccess(data));
     }
@@ -117,16 +117,16 @@ const deleteTutorialStart = () => ({
     type: DELETE_TUTORIAL_START,
 });
 
-const deleteTutorialSuccess = (id) => ({
+const deleteTutorialSuccess = (tutorialId) => ({
     type: DELETE_TUTORIAL_SUCCESS,
-    payload: id,
+    payload: tutorialId,
 });
 
-export const deleteTutorial = (id) => async (dispatch) => {
+export const deleteTutorial = (tutorialId) => async (dispatch) => {
     dispatch(deleteTutorialStart());
-    const data = await api.delete(`/tutorials/${id}`);
+    const data = await api.delete(`/tutorials/${tutorialId}`);
     if (data.message) {
-        dispatch(deleteTutorialSuccess(id));
+        dispatch(deleteTutorialSuccess(tutorialId));
     }
 };
 
@@ -143,9 +143,9 @@ const updateTutorialFail = (err) => ({
     payload: err,
 });
 
-export const updateTutorial = (id, updateData) => async (dispatch) => {
+export const updateTutorial = (tutorialId, updateData) => async (dispatch) => {
     dispatch(updateTutorialStart());
-    const data = await api.put(`/tutorials/${id}`, updateData);
+    const data = await api.put(`/tutorials/${tutorialId}`, updateData);
     if (data.id) {
         dispatch(updateTutorialSuccess());
     } else {

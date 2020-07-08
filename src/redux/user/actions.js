@@ -8,6 +8,11 @@ import {
     SIGN_IN_FAILURE,
     SIGN_IN_SUCCESS,
     CLEAR_ERRORS,
+    SAVE_TUTORIAL_START,
+    GET_SAVED_TUTORIALS_START,
+    GET_SAVED_TUTORIALS_SUCCESS,
+    SAVE_TUTORIAL_SUCCESS,
+    SAVE_TUTORIAL_FAILURE,
 } from "./action-types";
 import jwtDecode from "jwt-decode";
 import BaseApi from "../../api";
@@ -99,4 +104,48 @@ const clearErrorsStart = () => ({
 
 export const clearErrors = () => (dispatch) => {
     dispatch(clearErrorsStart());
+};
+
+const saveTutorialStart = () => ({
+    type: SAVE_TUTORIAL_START,
+});
+
+const saveTutorialSuccess = (savedTutorials) => ({
+    type: SAVE_TUTORIAL_SUCCESS,
+    payload: savedTutorials,
+});
+
+const saveTutorialFail = (err) => ({
+    type: SAVE_TUTORIAL_FAILURE,
+    payload: err,
+});
+
+export const saveTutorial = (tutorialId) => async (dispatch) => {
+    dispatch(saveTutorialStart());
+    const data = await api.post(`/auth/save-tutorial?tutorialId=${tutorialId}`);
+
+    if (data.token) {
+        const decoded = jwtDecode(data.token);
+        localStorage.setItem("token", data.token);
+        dispatch(saveTutorialSuccess(decoded.savedTutorials));
+    } else {
+        dispatch(saveTutorialFail(data));
+    }
+};
+
+const getSavedTutorialsStart = () => ({
+    type: GET_SAVED_TUTORIALS_START,
+});
+
+const getSavedTutorialsSuccess = (savedTutorials) => ({
+    type: GET_SAVED_TUTORIALS_SUCCESS,
+    payload: savedTutorials,
+});
+
+export const getSavedTutorials = () => async (dispatch) => {
+    dispatch(getSavedTutorialsStart());
+    const data = await api.get("/auth/saved-tutorials");
+    if (data.length) {
+        dispatch(getSavedTutorialsSuccess(data));
+    }
 };

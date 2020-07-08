@@ -88,13 +88,18 @@ class SignUpPage extends Component {
                 <Form onSubmit={this.submitForm}>
                     <FormGroup>
                         <label htmlFor='email'>Email</label>
-                        <FormInput invalid={errors.email} id='email' placeholder='Email' onChange={this.handleEmail} />
+                        <FormInput
+                            invalid={errors.email ? true : false}
+                            id='email'
+                            placeholder='Email'
+                            onChange={this.handleEmail}
+                        />
                         <EmailError />
                     </FormGroup>
                     <FormGroup>
                         <label htmlFor='name'>Họ Tên</label>
                         <FormInput
-                            invalid={errors.name}
+                            invalid={errors.name ? true : false}
                             type='text'
                             placeholder='Họ Tên'
                             id='name'
@@ -105,7 +110,7 @@ class SignUpPage extends Component {
                     <FormGroup>
                         <label htmlFor='password'>Password</label>
                         <FormInput
-                            invalid={errors.password}
+                            invalid={errors.password ? true : false}
                             type='password'
                             placeholder='Password'
                             id='password'
@@ -116,7 +121,7 @@ class SignUpPage extends Component {
                     <FormGroup>
                         <label htmlFor='confirmPassword'>Xác nhận mật khẩu</label>
                         <FormInput
-                            invalid={errors.confirmPassword}
+                            invalid={errors.confirmPassword ? true : false}
                             type='password'
                             placeholder='Xác nhận mật khẩu'
                             id='confirmPassword'

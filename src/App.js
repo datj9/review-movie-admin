@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
 import TutorialPage from "./pages/TutorialPage";
 import UpdateTutorialPage from "./pages/UpdateTutorialPage";
+import SavedTutorialsPage from "./pages/SavedTutorialsPage";
 
 class App extends Component {
     authorize = (Page) => {
@@ -22,6 +23,14 @@ class App extends Component {
             return <Page />;
         }
         return <Redirect to='/' />;
+    };
+
+    authenticate = (Page) => {
+        const { isAuthenticated } = this.props;
+        if (isAuthenticated) {
+            return <Page />;
+        }
+        return <Redirect to='/sign-in' />;
     };
 
     componentDidMount() {
@@ -35,10 +44,10 @@ class App extends Component {
             <Router>
                 <Header />
                 <Switch>
-                    <Route exact path='/' component={HomePage} />
                     <Route exact path='/sign-up' component={SignUpPage} />
                     <Route exact path='/sign-in' component={SignInPage} />
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
+                    <Route exact path='/users/saved-tutorials' render={() => this.authenticate(SavedTutorialsPage)} />
                     <Route exact path='/admin/tutorials' render={() => this.authorize(AdminPage)} />
                     <Route
                         exact
@@ -50,6 +59,7 @@ class App extends Component {
                         path='/admin/tutorials/update-tutorial/:tutorialId'
                         render={() => this.authorize(UpdateTutorialPage)}
                     />
+                    <Route exact path='/' component={HomePage} />
                 </Switch>
             </Router>
         );
@@ -58,6 +68,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
+    isAuthenticated: state.user.isAuthenticated,
 });
 
 const mapDispatchToProps = (dispatch) => ({

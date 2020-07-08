@@ -4,6 +4,7 @@ import { Form, FormInput, FormGroup, Button } from "shards-react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { signIn, clearErrors } from "../../redux/user/actions";
+import queryString from "query-string";
 
 class SignInPage extends Component {
     state = { email: "", password: "" };
@@ -25,6 +26,7 @@ class SignInPage extends Component {
 
     render() {
         const { isAuthenticated, isLoading, errorsFromStore: errors } = this.props;
+        const { tutorialId } = queryString.parse(this.props.location.search);
 
         const EmailError = () => {
             if (errors.email && errors.email.includes("exist")) {
@@ -44,50 +46,54 @@ class SignInPage extends Component {
             }
             return null;
         };
-        if (isAuthenticated) {
+
+        if (isAuthenticated && !tutorialId) {
             return <Redirect to='/' />;
-        }
-        return (
-            <div className='bg-primary sign-in'>
-                <div className='container h-100 w-50 d-flex align-items-center justify-content-center'>
-                    <div className='w-75 h-75 px-3 d-flex justify-content-center flex-column shadow-lg rounded bg-white'>
-                        <h3 className='mb-3 text-center'>Đăng Nhập</h3>
-                        <Form onSubmit={this.submitForm}>
-                            <FormGroup>
-                                <label htmlFor='email'>Email</label>
-                                <FormInput
-                                    invalid={errors.email}
-                                    placeholder='Email'
-                                    id='email'
-                                    onChange={this.handleEmail}
-                                />
-                                <EmailError />
-                            </FormGroup>
-                            <FormGroup>
-                                <label htmlFor='password'>Password</label>
-                                <FormInput
-                                    invalid={errors.password}
-                                    type='password'
-                                    placeholder='Password'
-                                    id='password'
-                                    onChange={this.handlePassword}
-                                />
-                                <PasswordError />
-                            </FormGroup>
-                            <Button block disabled={isLoading} type='submit' onClick={this.submitForm}>
-                                {isLoading ? "Đang Đăng Nhập..." : "Đăng Nhập"}
-                            </Button>
-                            <div className='mt-3 text-center'>
-                                <span>Bạn chưa có tài khoản </span>
-                                <Link className='text-decoration-none' to='/sign-up'>
-                                    Đăng Ký
-                                </Link>
-                            </div>
-                        </Form>
+        } else if (isAuthenticated && tutorialId) {
+            return <Redirect to={`/tutorials/${tutorialId}`} />;
+        } else {
+            return (
+                <div className='bg-primary sign-in'>
+                    <div className='container h-100 w-50 d-flex align-items-center justify-content-center'>
+                        <div className='w-75 h-75 px-3 d-flex justify-content-center flex-column shadow-lg rounded bg-white'>
+                            <h3 className='mb-3 text-center'>Đăng Nhập</h3>
+                            <Form onSubmit={this.submitForm}>
+                                <FormGroup>
+                                    <label htmlFor='email'>Email</label>
+                                    <FormInput
+                                        invalid={errors.email ? true : false}
+                                        placeholder='Email'
+                                        id='email'
+                                        onChange={this.handleEmail}
+                                    />
+                                    <EmailError />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label htmlFor='password'>Password</label>
+                                    <FormInput
+                                        invalid={errors.password ? true : false}
+                                        type='password'
+                                        placeholder='Password'
+                                        id='password'
+                                        onChange={this.handlePassword}
+                                    />
+                                    <PasswordError />
+                                </FormGroup>
+                                <Button block disabled={isLoading} type='submit' onClick={this.submitForm}>
+                                    {isLoading ? "Đang Đăng Nhập..." : "Đăng Nhập"}
+                                </Button>
+                                <div className='mt-3 text-center'>
+                                    <span>Bạn chưa có tài khoản </span>
+                                    <Link className='text-decoration-none' to='/sign-up'>
+                                        Đăng Ký
+                                    </Link>
+                                </div>
+                            </Form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
