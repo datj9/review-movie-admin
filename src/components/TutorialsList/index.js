@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { Card, CardTitle, CardImg, CardBody, CardFooter, Button } from "shards-react";
+import { Card, CardTitle, CardImg, CardBody, CardFooter, Button, Badge } from "shards-react";
 import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
 import moment from "moment";
@@ -52,6 +52,13 @@ class TutorialsList extends Component {
                                     ? moment(tutorial.createdAt).fromNow()
                                     : moment(tutorial.createdAt).format("MMMM DD")}
                             </span>
+                            <div>
+                                {tutorial.tags.map((tag) => (
+                                    <Badge className='mr-1' pill theme='secondary'>
+                                        {tag}
+                                    </Badge>
+                                ))}
+                            </div>
                         </div>
                     </Link>
                 ));
