@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./style.css";
 import { FormInput, Button } from "shards-react";
 import { Link } from "react-router-dom";
 import TutorialsList from "../../components/TutorialsList";
@@ -13,7 +14,7 @@ class AdminPage extends Component {
     render() {
         return (
             <div className='container py-5'>
-                <h1 className='title mb-3 d-block'>Các bài hướng dẫn</h1>
+                <div className='title text-dark font-weight-bold mb-3'>Các bài hướng dẫn</div>
                 <hr />
                 <FormInput placeholder='Tìm kiếm bài hướng dẫn theo tiêu đề' className='mb-3' />
                 <Link to='/admin/tutorials/create-tutorial'>

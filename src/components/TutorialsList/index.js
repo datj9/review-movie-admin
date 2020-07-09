@@ -18,7 +18,7 @@ class TutorialsList extends Component {
         const Tutorials = () => {
             if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
                 return tutorials.map((tutorial) => (
-                    <div className='card-item text-decoration-none text-dark' key={tutorial.id}>
+                    <div className='card-item-admin text-decoration-none text-dark' key={tutorial.id}>
                         <Card>
                             <CardImg src={tutorial.thumbnailUrl} />
                             <CardBody>
@@ -45,8 +45,8 @@ class TutorialsList extends Component {
                     >
                         <img className='mr-3' src={tutorial.thumbnailUrl} alt='' />
                         <div className='d-flex flex-column'>
-                            <h3>{tutorial.title}</h3>
-                            <h5>{tutorial.description}</h5>
+                            <span className='tutorial-title'>{tutorial.title}</span>
+                            <span className='tutorial-description'>{tutorial.description}</span>
                             <span>
                                 {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
                                     ? moment(tutorial.createdAt).fromNow()

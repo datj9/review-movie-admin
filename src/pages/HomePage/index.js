@@ -12,7 +12,7 @@ class HomePage extends React.Component {
     render() {
         return (
             <div className='container py-5'>
-                <h1 className='title mb-3 d-block'>Bài hướng dẫn</h1>
+                <div className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</div>
                 <hr />
                 <TutorialsList />
             </div>

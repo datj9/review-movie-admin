@@ -15,7 +15,7 @@ class SavedTutorialsPage extends React.Component {
         const { loaded, tutorials } = this.props;
         return (
             <div className='container py-5'>
-                <h1 className='title mb-3 d-block'>Bài hướng dẫn đã lưu</h1>
+                <div className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn đã lưu</div>
                 <hr />
                 {loaded && tutorials.length === 0 ? (
                     <div className='text-center h4'>Chưa có bài hướng dẫn nào được lưu</div>

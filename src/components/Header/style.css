@@ -2,8 +2,18 @@
     padding: 0.25rem 0;
     height: 4rem;
     z-index: 2;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .brand {
     font-size: 1.5rem;
+    line-height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        box-shadow: none;
+    }
 }
