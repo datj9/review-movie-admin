@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
+import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
+import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
+import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
+import Font from "@ckeditor/ckeditor5-font/src/font";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 import { withRouter } from "react-router-dom";
+
+const editorConfiguration = {
+    plugins: [Essentials, Paragraph, Bold, Font],
+    toolbar: ["bold", "italic", "fontColor", "fontBackgroundColor"],
+};
 
 class UpdateTutorialPage extends Component {
     constructor(props) {
@@ -151,6 +160,7 @@ class UpdateTutorialPage extends Component {
                 <CKEditor
                     editor={ClassicEditor}
                     data={tutorial.content}
+                    config={editorConfiguration}
                     onInit={(editor) => {
                         editor.ui.view.editable.element.style.height = "200px";
                         editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
