@@ -3,7 +3,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
-import { FormInput, Button, Alert } from "shards-react";
+import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 import { withRouter } from "react-router-dom";
@@ -11,7 +11,13 @@ import { withRouter } from "react-router-dom";
 class UpdateTutorialPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { editorValue: "", title: "", description: "", gotTutorial: false };
+        this.state = {
+            editorValue: "",
+            title: "",
+            description: "",
+            gotTutorial: false,
+            technologies: { ReactJS: false, JavaScript: false },
+        };
     }
 
     handleEditorValue = (event, editor) => {
@@ -31,22 +37,39 @@ class UpdateTutorialPage extends Component {
         this.setState({ description: e.target.value });
     };
 
+    handleTechChange = (e, tech) => {
+        const technologies = this.state.technologies;
+        technologies[tech] = !technologies[tech];
+        this.setState({ technologies });
+    };
+
     updateTutorial = () => {
-        console.log(this.titleRef);
+        const techsObj = this.state.technologies;
+        const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+
         this.props.updateTutorialReq(this.props.tutorial.id, {
             thumbnailUrl: this.props.linkUrl || this.props.tutorial.thumbnailUrl,
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
+            tags: searchTechnogies,
         });
     };
 
     static getDerivedStateFromProps(props, state) {
-        console.log(state);
-        if (props.tutorial.title && !state.gotTutorial) {
+        const { tutorial } = props;
+
+        if (tutorial.title && !state.gotTutorial) {
+            const technologies = {};
+            tutorial.tags.forEach((tech) => {
+                if (typeof state.technologies[tech] !== "undefined") {
+                    technologies[tech] = true;
+                }
+            });
             return {
-                title: props.tutorial.title,
-                description: props.tutorial.description,
+                title: tutorial.title,
+                description: tutorial.description,
+                technologies,
                 gotTutorial: true,
             };
         }
@@ -55,6 +78,7 @@ class UpdateTutorialPage extends Component {
 
     componentDidMount() {
         this.props.fetchTutorialReq(this.props.match.params.tutorialId);
+        window.scrollTo(0, 0);
     }
 
     componentWillUnmount() {
@@ -62,7 +86,7 @@ class UpdateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue, title, description } = this.state;
+        const { editorValue, title, description, technologies } = this.state;
         const { linkUrl, isUploading, isLoading, tutorial, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -86,6 +110,26 @@ class UpdateTutorialPage extends Component {
                 <FormInput value={description} placeholder='Mô tả' className='mb-3' onChange={this.handleDescription} />
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
+                ) : null}
+                <div>
+                    <p>Chọn công nghệ: </p>
+                    <FormCheckbox
+                        inline
+                        checked={technologies.JavaScript}
+                        onChange={(e) => this.handleTechChange(e, "JavaScript")}
+                    >
+                        JavaScript
+                    </FormCheckbox>
+                    <FormCheckbox
+                        inline
+                        checked={technologies.ReactJS}
+                        onChange={(e) => this.handleTechChange(e, "ReactJS")}
+                    >
+                        ReactJS
+                    </FormCheckbox>
+                </div>
+                {errors.tags && errors.tags.includes("required") ? (
+                    <div className='text-danger mb-3'>Vui lòng chọn công nghệ</div>
                 ) : null}
                 <div className='custom-file mb-3'>
                     <input

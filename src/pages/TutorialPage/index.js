@@ -17,7 +17,7 @@ class TutorialPage extends Component {
     componentDidMount() {
         const { tutorialId } = this.props.match.params;
         this.props.getTutorialReq(tutorialId);
-        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
     }
 
     componentWillUnmount() {

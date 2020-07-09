@@ -1,3 +1,9 @@
 .title {
     font-size: 2rem;
 }
+
+.dropdown-menu:focus,
+button.dropdown-item:focus {
+    outline: none;
+    border: none;
+}

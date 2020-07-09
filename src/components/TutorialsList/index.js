@@ -13,7 +13,7 @@ class TutorialsList extends Component {
     };
 
     render() {
-        const { tutorials, currentUser, isLoading, pageSize = 8 } = this.props;
+        const { tutorials, currentUser, isLoading, isSearching, pageSize = 8 } = this.props;
 
         const Tutorials = () => {
             if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
@@ -30,7 +30,7 @@ class TutorialsList extends Component {
                                     Xóa Bài
                                 </Button>
                                 <Link to={`${this.props.match.path}/update-tutorial/${tutorial.id}`}>
-                                    <Button theme='warning'>Chỉnh sủa</Button>
+                                    <Button theme='warning'>Chỉnh sửa</Button>
                                 </Link>
                             </CardFooter>
                         </Card>
@@ -60,7 +60,7 @@ class TutorialsList extends Component {
 
         return (
             <div className='d-flex flex-wrap'>
-                {isLoading ? <CardLoader numberOfCards={pageSize} /> : <Tutorials />}
+                {isLoading || isSearching ? <CardLoader numberOfCards={pageSize} /> : <Tutorials />}
             </div>
         );
     }
@@ -69,6 +69,7 @@ class TutorialsList extends Component {
 const mapStateToProps = (state) => ({
     tutorials: state.tutorial.tutorials,
     isLoading: state.tutorial.isLoading,
+    isSearching: state.tutorial.isSearching,
     currentUser: state.user.currentUser,
 });
 

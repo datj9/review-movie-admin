@@ -19,6 +19,8 @@ import {
     CLEAR_ERRORS_AND_LINK,
     GET_SAVED_TUTORIALS_START,
     GET_SAVED_TUTORIALS_SUCCESS,
+    SEARCH_TUTORIALS_START,
+    SEARCH_TUTORIALS_SUCCESS,
 } from "./action-types";
 import BaseApi from "../../api";
 
@@ -185,5 +187,21 @@ export const getSavedTutorials = () => async (dispatch) => {
     const data = await api.get("/auth/saved-tutorials");
     if (data.length >= 0) {
         dispatch(getSavedTutorialsSuccess(data));
+    }
+};
+
+const searchTutorialsStart = () => ({
+    type: SEARCH_TUTORIALS_START,
+});
+const searchTutorialsSuccess = (tutorials) => ({
+    type: SEARCH_TUTORIALS_SUCCESS,
+    payload: tutorials,
+});
+export const searchTutorials = (technologies) => async (dispatch) => {
+    dispatch(searchTutorialsStart());
+    console.log(technologies);
+    const data = await api.get(`/tutorials?tags=${JSON.stringify(technologies)}`);
+    if (Array.isArray(data)) {
+        dispatch(searchTutorialsSuccess(data));
     }
 };

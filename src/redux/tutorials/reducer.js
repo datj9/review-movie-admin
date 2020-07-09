@@ -18,10 +18,13 @@ import {
     CLEAR_ERRORS_AND_LINK,
     GET_SAVED_TUTORIALS_START,
     GET_SAVED_TUTORIALS_SUCCESS,
+    SEARCH_TUTORIALS_START,
+    SEARCH_TUTORIALS_SUCCESS,
 } from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
+    isSearching: false,
     loaded: false,
     tutorials: [],
     tutorial: {},
@@ -144,6 +147,17 @@ export default (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 tutorials: action.payload,
                 loaded: true,
+            };
+        case SEARCH_TUTORIALS_START:
+            return {
+                ...state,
+                isSearching: true,
+            };
+        case SEARCH_TUTORIALS_SUCCESS:
+            return {
+                ...state,
+                isSearching: false,
+                tutorials: action.payload,
             };
         default:
             return state;

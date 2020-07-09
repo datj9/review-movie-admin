@@ -3,12 +3,12 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
-import { FormInput, Button, Alert } from "shards-react";
+import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, createTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 
 class CreateTutorialPage extends Component {
-    state = { editorValue: "", title: "", description: "" };
+    state = { editorValue: "", title: "", description: "", technologies: { ReactJS: false, JavaScript: false } };
 
     handleEditorValue = (event, editor) => {
         const data = editor.getData();
@@ -27,12 +27,22 @@ class CreateTutorialPage extends Component {
         this.setState({ description: e.target.value });
     };
 
+    handleTechChange = (e, tech) => {
+        const technologies = this.state.technologies;
+        technologies[tech] = !technologies[tech];
+        this.setState({ technologies });
+    };
+
     createTutorial = () => {
+        const techsObj = this.state.technologies;
+        const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+
         this.props.createTutorialReq({
             thumbnailUrl: this.props.linkUrl,
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
+            tags: searchTechnogies,
         });
     };
 
@@ -41,7 +51,7 @@ class CreateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue } = this.state;
+        const { editorValue, technologies } = this.state;
         const { linkUrl, isUploading, isLoading, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -65,6 +75,26 @@ class CreateTutorialPage extends Component {
                 <FormInput placeholder='Mô tả' className='mb-3' onChange={this.handleDescription} />
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
+                ) : null}
+                <div>
+                    <p>Chọn công nghệ: </p>
+                    <FormCheckbox
+                        inline
+                        checked={technologies.JavaScript}
+                        onChange={(e) => this.handleTechChange(e, "JavaScript")}
+                    >
+                        JavaScript
+                    </FormCheckbox>
+                    <FormCheckbox
+                        inline
+                        checked={technologies.ReactJS}
+                        onChange={(e) => this.handleTechChange(e, "ReactJS")}
+                    >
+                        ReactJS
+                    </FormCheckbox>
+                </div>
+                {errors.tags && errors.tags.includes("required") ? (
+                    <div className='text-danger mb-3'>Vui lòng chọn công nghệ</div>
                 ) : null}
                 <div className='custom-file mb-3'>
                     <input
