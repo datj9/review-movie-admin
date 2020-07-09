@@ -9,9 +9,3 @@ p,
 li {
     font-size: 1.6rem;
 }
-
-@media only screen and (max-width: 576px) {
-    p {
-        margin-bottom: 0;
-    }
-}
