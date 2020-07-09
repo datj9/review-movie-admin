@@ -22,6 +22,7 @@ class UpdateTutorialPage extends Component {
 
     handleEditorValue = (event, editor) => {
         const data = editor.getData();
+        console.log(typeof data);
         this.setState({ editorValue: data });
     };
 
