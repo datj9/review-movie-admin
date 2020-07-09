@@ -36,13 +36,13 @@ class HomePage extends React.Component {
 
         return (
             <div className='container py-5'>
-                <div className='d-flex justify-content-between'>
+                <div className='breadcrumb-container'>
                     <span className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</span>
                     <Dropdown toggle={this.toggle} open={this.state.open} className='d-table'>
                         <DropdownToggle disabled={isSearching} onClick={this.toggle}>
                             {isSearching ? "Đang tìm kiếm" : "Tìm kiếm theo"}
                         </DropdownToggle>
-                        <DropdownMenu right>
+                        <DropdownMenu>
                             <DropdownItem disabled>Ngôn ngữ</DropdownItem>
 
                             <FormCheckbox

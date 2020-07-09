@@ -47,14 +47,14 @@ class TutorialsList extends Component {
                         <div className='d-flex flex-column'>
                             <span className='tutorial-title'>{tutorial.title}</span>
                             <span className='tutorial-description'>{tutorial.description}</span>
-                            <span>
+                            <span className='mt-2'>
                                 {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
                                     ? moment(tutorial.createdAt).fromNow()
                                     : moment(tutorial.createdAt).format("MMMM DD")}
                             </span>
                             <div>
                                 {tutorial.tags.map((tag) => (
-                                    <Badge className='mr-1' pill theme='secondary'>
+                                    <Badge key={tag} className='mr-2' pill theme='secondary'>
                                         {tag}
                                     </Badge>
                                 ))}

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import "./style.css";
 import { connect } from "react-redux";
 import { fetchOneTutorial, clearTutorial } from "../../redux/tutorials/actions";
-import { Button } from "shards-react";
+import { Button, Badge } from "shards-react";
 import parse from "html-react-parser";
 import moment from "moment";
 import ContentLoader from "react-content-loader";
@@ -82,11 +82,22 @@ class TutorialPage extends Component {
                         <div className='mb-3 d-flex justify-content-between'>
                             <div className='d-flex flex-column flex-start'>
                                 <span>Lượt xem: {tutorial.views}</span>
-                                <span>Đăng tải vào: {moment(tutorial.createdAt).format("DD-MM-YYYY")}</span>
+                                <span>
+                                    {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
+                                        ? moment(tutorial.createdAt).fromNow()
+                                        : moment(tutorial.createdAt).format("MMMM DD")}
+                                </span>
                             </div>
                             <SaveTutorialButton />
                         </div>
                         <div className='mt-5'>{parse(tutorial.content || "")}</div>
+                        <div className='my-3'>
+                            {tutorial.tags?.map((tag) => (
+                                <Badge key={tag} className='mr-2' pill theme='secondary'>
+                                    {tag}
+                                </Badge>
+                            ))}
+                        </div>
                     </Fragment>
                 )}
             </div>
