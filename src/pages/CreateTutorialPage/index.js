@@ -2,10 +2,17 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
+import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 import Font from "@ckeditor/ckeditor5-font/src/font";
+import Image from '@ckeditor/ckeditor5-image/src/image';
+import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
+import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository"
+import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
+import List from '@ckeditor/ckeditor5-list/src/list'
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
@@ -13,8 +20,14 @@ import { connect } from "react-redux";
 import { uploadImage, createTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 
 const editorConfiguration = {
-    plugins: [Essentials, Bold, Italic, Paragraph],
-    toolbar: ["bold", "italic"],
+    plugins: [Essentials, Paragraph, Heading, Bold, Italic, Font, List,FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
+    toolbar: ["heading", "bold", "italic", "fontColor", "fontBackgroundColor", "bulletedList", "numberedList","selectAll", "undo", "redo", 'codeBlock'],
+    image: {
+        toolbar: ['imageTextAlternative']
+    },
+    codeBlock: {
+        languages: [{ language: 'javascript', label: 'JavaScript' }]
+    }
 };
 
 class CreateTutorialPage extends Component {
@@ -153,7 +166,7 @@ class CreateTutorialPage extends Component {
                 </Button>
                 <div className='mt-5'>
                     <span className='h4'>Xem trước ở bên dưới</span>
-                    {parse(editorValue)}
+                    <div>{parse(editorValue)}</div>
                 </div>
             </div>
         );

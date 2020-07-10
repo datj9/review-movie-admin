@@ -3,6 +3,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Font from "@ckeditor/ckeditor5-font/src/font";
@@ -11,6 +12,7 @@ import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository"
 import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
+import List from '@ckeditor/ckeditor5-list/src/list'
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
@@ -19,8 +21,8 @@ import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } fro
 import { withRouter } from "react-router-dom";
 
 const editorConfiguration = {
-    plugins: [Essentials, Paragraph, Bold, Italic, Font, FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
-    toolbar: ["bold", "italic", "fontColor", "fontBackgroundColor", "selectAll", "undo", "redo", 'codeBlock'],
+    plugins: [Essentials, Paragraph, Heading, Bold, Italic, Font, List,FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
+    toolbar: ["heading", "bold", "italic", "fontColor", "fontBackgroundColor", "bulletedList", "numberedList","selectAll", "undo", "redo", 'codeBlock'],
     image: {
         toolbar: ['imageTextAlternative']
     },
@@ -203,7 +205,7 @@ class UpdateTutorialPage extends Component {
                 </Button>
                 <div className='mt-5'>
                     <span className='h4'>Xem trước ở bên dưới</span>
-                    <div>{parse(editorValue)}</div>
+                    <div id='preview'>{parse(editorValue)}</div>
                 </div>
             </div>
         );
