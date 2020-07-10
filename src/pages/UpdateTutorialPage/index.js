@@ -4,7 +4,13 @@ import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor"
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
+import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Font from "@ckeditor/ckeditor5-font/src/font";
+import Image from '@ckeditor/ckeditor5-image/src/image';
+import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
+import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository"
+import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
@@ -13,8 +19,14 @@ import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } fro
 import { withRouter } from "react-router-dom";
 
 const editorConfiguration = {
-    plugins: [Essentials, Paragraph, Bold, Font],
-    toolbar: ["bold", "italic", "fontColor", "fontBackgroundColor"],
+    plugins: [Essentials, Paragraph, Bold, Italic, Font, FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
+    toolbar: ["bold", "italic", "fontColor", "fontBackgroundColor", "selectAll", "undo", "redo", 'codeBlock'],
+    image: {
+        toolbar: ['imageTextAlternative']
+    },
+    codeBlock: {
+        languages: [{ language: 'javascript', label: 'JavaScript' }]
+    }
 };
 
 class UpdateTutorialPage extends Component {
@@ -31,7 +43,7 @@ class UpdateTutorialPage extends Component {
 
     handleEditorValue = (event, editor) => {
         const data = editor.getData();
-        console.log(typeof data);
+        console.log(data);
         this.setState({ editorValue: data });
     };
 
@@ -79,6 +91,7 @@ class UpdateTutorialPage extends Component {
             return {
                 title: tutorial.title,
                 description: tutorial.description,
+                editorValue: tutorial.content,
                 technologies,
                 gotTutorial: true,
             };
@@ -162,7 +175,9 @@ class UpdateTutorialPage extends Component {
                     data={tutorial.content}
                     config={editorConfiguration}
                     onInit={(editor) => {
+                        console.log(Array.from(editor.ui.componentFactory.names()))
                         editor.ui.view.editable.element.style.height = "200px";
+                        console.log(editor.plugins.has('FileRepository'))
                         editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
                             return new UploadAdapter(loader);
                         };
@@ -188,7 +203,7 @@ class UpdateTutorialPage extends Component {
                 </Button>
                 <div className='mt-5'>
                     <span className='h4'>Xem trước ở bên dưới</span>
-                    {parse(editorValue)}
+                    <div>{parse(editorValue)}</div>
                 </div>
             </div>
         );
