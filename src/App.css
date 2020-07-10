@@ -2,6 +2,8 @@ strong {
     font-weight: 600;
 }
 
-.hl {
-    background: rgb(126, 126, 126);
+pre  {
+    padding: 1rem 0;
+    font-size: 1.4rem;
+    background: #d4d4d4;
 }
