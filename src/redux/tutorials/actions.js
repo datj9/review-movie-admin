@@ -61,7 +61,7 @@ const fetchOneTutorialSuccess = (tutorial) => ({
 
 export const fetchOneTutorial = (tutorialId) => async (dispatch) => {
     dispatch(fetchOneTutorialStart());
-    const data = await api.get(`/tutorials/${tutorialId}`);
+    const data = await api.get(`/tutorials/${tutorialId}?reqFromAd=true`);
     if (data?.id) {
         dispatch(fetchOneTutorialSuccess(data));
     }
