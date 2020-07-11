@@ -142,7 +142,7 @@ class CreateTutorialPage extends Component {
                 ) : null}
                 <FormSelect className='mb-2' onChange={this.handleDifficulty}>
                     <option invalid={errors.difficultyLevel ? true : false}>
-                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : "Chọn độ khó"}
+                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : "Chọn độ khó của bài"}
                     </option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
