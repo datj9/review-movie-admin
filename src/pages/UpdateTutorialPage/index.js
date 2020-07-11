@@ -15,7 +15,7 @@ import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
-import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
+import { FormInput, Button, Alert, FormCheckbox, FormSelect } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 import { withRouter } from "react-router-dom";
@@ -65,6 +65,7 @@ class UpdateTutorialPage extends Component {
             description: "",
             gotTutorial: false,
             thumbnailUrl: "",
+            difficultyLevel: 0,
             technologies: { ReactJS: false, JavaScript: false },
         };
     }
@@ -97,6 +98,10 @@ class UpdateTutorialPage extends Component {
         this.setState({ thumbnailUrl: e.target.value });
     };
 
+    handleDifficulty = (e) => {
+        this.setState({ difficultyLevel: e.target.value });
+    };
+
     updateTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
@@ -124,6 +129,7 @@ class UpdateTutorialPage extends Component {
                 title: tutorial.title,
                 description: tutorial.description,
                 editorValue: tutorial.content,
+                difficultyLevel: tutorial.difficultyLevel,
                 technologies,
                 gotTutorial: true,
             };
@@ -141,7 +147,7 @@ class UpdateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue, title, description, technologies } = this.state;
+        const { editorValue, title, description, difficultyLevel, technologies } = this.state;
         const { linkUrl, isUploading, isLoading, tutorial, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -166,6 +172,15 @@ class UpdateTutorialPage extends Component {
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
                 ) : null}
+                <FormSelect className='mb-2' onChange={this.handleDifficulty}>
+                    <option invalid={errors.difficultyLevel ? true : false}>
+                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : difficultyLevel}
+                    </option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                </FormSelect>
                 <div>
                     <p>Chọn công nghệ: </p>
                     <FormCheckbox
