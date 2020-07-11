@@ -3,16 +3,16 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Heading from "@ckeditor/ckeditor5-heading/src/heading";
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Font from "@ckeditor/ckeditor5-font/src/font";
-import Image from '@ckeditor/ckeditor5-image/src/image';
-import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
-import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
-import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository"
-import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
-import List from '@ckeditor/ckeditor5-list/src/list'
+import Image from "@ckeditor/ckeditor5-image/src/image";
+import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+import ImageResize from "@ckeditor/ckeditor5-image/src/imageresize";
+import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository";
+import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
+import List from "@ckeditor/ckeditor5-list/src/list";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
@@ -21,14 +21,39 @@ import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } fro
 import { withRouter } from "react-router-dom";
 
 const editorConfiguration = {
-    plugins: [Essentials, Paragraph, Heading, Bold, Italic, Font, List,FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
-    toolbar: ["heading", "bold", "italic", "fontColor", "fontBackgroundColor", "bulletedList", "numberedList","selectAll", "undo", "redo", 'codeBlock'],
+    plugins: [
+        Essentials,
+        Paragraph,
+        Heading,
+        Bold,
+        Italic,
+        Font,
+        List,
+        FileRepository,
+        Image,
+        ImageToolbar,
+        ImageResize,
+        CodeBlock,
+    ],
+    toolbar: [
+        "heading",
+        "bold",
+        "italic",
+        "fontColor",
+        "fontBackgroundColor",
+        "bulletedList",
+        "numberedList",
+        "selectAll",
+        "undo",
+        "redo",
+        "codeBlock",
+    ],
     image: {
-        toolbar: ['imageTextAlternative']
+        toolbar: ["imageTextAlternative"],
     },
     codeBlock: {
-        languages: [{ language: 'javascript', label: 'JavaScript' }]
-    }
+        languages: [{ language: "javascript", label: "JavaScript" }],
+    },
 };
 
 class UpdateTutorialPage extends Component {
@@ -39,6 +64,7 @@ class UpdateTutorialPage extends Component {
             title: "",
             description: "",
             gotTutorial: false,
+            thumbnailUrl: "",
             technologies: { ReactJS: false, JavaScript: false },
         };
     }
@@ -67,12 +93,16 @@ class UpdateTutorialPage extends Component {
         this.setState({ technologies });
     };
 
+    handleThumbnailInput = (e) => {
+        this.setState({ thumbnailUrl: e.target.value });
+    };
+
     updateTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
 
         this.props.updateTutorialReq(this.props.tutorial.id, {
-            thumbnailUrl: this.props.linkUrl || this.props.tutorial.thumbnailUrl,
+            thumbnailUrl: this.props.linkUrl || this.state.thumbnailUrl || this.props.tutorial.thumbnailUrl,
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
@@ -167,6 +197,12 @@ class UpdateTutorialPage extends Component {
                         {isUploading ? "Đang đăng tải" : "Chọn hình thumbnail"}
                     </label>
                 </div>
+                <FormInput
+                    defaultValue={tutorial.thumbnailUrl}
+                    placeholder='Hoặc nhập đường dẫn hình thumbnail'
+                    className='mb-3'
+                    onChange={this.handleThumbnailInput}
+                />
                 {errors.thumbnailUrl && errors.thumbnailUrl.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng đăng tải hình thumbnail</div>
                 ) : null}
@@ -177,9 +213,9 @@ class UpdateTutorialPage extends Component {
                     data={tutorial.content}
                     config={editorConfiguration}
                     onInit={(editor) => {
-                        console.log(Array.from(editor.ui.componentFactory.names()))
+                        console.log(Array.from(editor.ui.componentFactory.names()));
                         editor.ui.view.editable.element.style.height = "200px";
-                        console.log(editor.plugins.has('FileRepository'))
+                        console.log(editor.plugins.has("FileRepository"));
                         editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
                             return new UploadAdapter(loader);
                         };

@@ -3,16 +3,16 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Heading from "@ckeditor/ckeditor5-heading/src/heading";
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Font from "@ckeditor/ckeditor5-font/src/font";
-import Image from '@ckeditor/ckeditor5-image/src/image';
-import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
-import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
-import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository"
-import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
-import List from '@ckeditor/ckeditor5-list/src/list'
+import Image from "@ckeditor/ckeditor5-image/src/image";
+import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+import ImageResize from "@ckeditor/ckeditor5-image/src/imageresize";
+import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository";
+import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
+import List from "@ckeditor/ckeditor5-list/src/list";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
@@ -20,18 +20,49 @@ import { connect } from "react-redux";
 import { uploadImage, createTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 
 const editorConfiguration = {
-    plugins: [Essentials, Paragraph, Heading, Bold, Italic, Font, List,FileRepository, Image, ImageToolbar, ImageResize, CodeBlock],
-    toolbar: ["heading", "bold", "italic", "fontColor", "fontBackgroundColor", "bulletedList", "numberedList","selectAll", "undo", "redo", 'codeBlock'],
+    plugins: [
+        Essentials,
+        Paragraph,
+        Heading,
+        Bold,
+        Italic,
+        Font,
+        List,
+        FileRepository,
+        Image,
+        ImageToolbar,
+        ImageResize,
+        CodeBlock,
+    ],
+    toolbar: [
+        "heading",
+        "bold",
+        "italic",
+        "fontColor",
+        "fontBackgroundColor",
+        "bulletedList",
+        "numberedList",
+        "selectAll",
+        "undo",
+        "redo",
+        "codeBlock",
+    ],
     image: {
-        toolbar: ['imageTextAlternative']
+        toolbar: ["imageTextAlternative"],
     },
     codeBlock: {
-        languages: [{ language: 'javascript', label: 'JavaScript' }]
-    }
+        languages: [{ language: "javascript", label: "JavaScript" }],
+    },
 };
 
 class CreateTutorialPage extends Component {
-    state = { editorValue: "", title: "", description: "", technologies: { ReactJS: false, JavaScript: false } };
+    state = {
+        editorValue: "",
+        title: "",
+        description: "",
+        thumbnailUrl: "",
+        technologies: { ReactJS: false, JavaScript: false },
+    };
 
     handleEditorValue = (event, editor) => {
         const data = editor.getData();
@@ -56,12 +87,16 @@ class CreateTutorialPage extends Component {
         this.setState({ technologies });
     };
 
+    handleThumbnailInput = (e) => {
+        this.setState({ thumbnailUrl: e.target.value });
+    };
+
     createTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
 
         this.props.createTutorialReq({
-            thumbnailUrl: this.props.linkUrl,
+            thumbnailUrl: this.props.linkUrl || this.state.thumbnailUrl,
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
@@ -130,6 +165,11 @@ class CreateTutorialPage extends Component {
                         {isUploading ? "Đang đăng tải" : "Chọn hình thumbnail"}
                     </label>
                 </div>
+                <FormInput
+                    placeholder='Hoặc nhập đường dẫn hình thumbnail'
+                    className='mb-3'
+                    onChange={this.handleThumbnailInput}
+                />
                 {errors.thumbnailUrl && errors.thumbnailUrl.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng đăng tải hình thumbnail</div>
                 ) : null}

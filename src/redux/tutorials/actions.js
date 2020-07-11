@@ -62,7 +62,7 @@ const fetchOneTutorialSuccess = (tutorial) => ({
 export const fetchOneTutorial = (tutorialId) => async (dispatch) => {
     dispatch(fetchOneTutorialStart());
     const data = await api.get(`/tutorials/${tutorialId}`);
-    if (data.id) {
+    if (data?.id) {
         dispatch(fetchOneTutorialSuccess(data));
     }
 };
@@ -86,7 +86,7 @@ export const uploadImage = (file) => async (dispatch) => {
     const formData = new FormData();
     formData.append("image", file);
     const data = await api.post("/tutorials/upload-image", formData, "formData");
-    if (data.linkUrl) {
+    if (data?.linkUrl) {
         dispatch(uploadImageSuccess(data.linkUrl));
     } else {
         dispatch(uploadImageFailure(data));
@@ -110,7 +110,7 @@ export const createTutorialFail = (err) => ({
 export const createTutorial = (tutorial) => async (dispatch) => {
     dispatch(createTutorialStart());
     const data = await api.post("/tutorials", tutorial);
-    if (data.id) {
+    if (data?.id) {
         dispatch(createTutorialSuccess(data));
     } else {
         dispatch(createTutorialFail(data));
@@ -129,7 +129,7 @@ const deleteTutorialSuccess = (tutorialId) => ({
 export const deleteTutorial = (tutorialId) => async (dispatch) => {
     dispatch(deleteTutorialStart());
     const data = await api.delete(`/tutorials/${tutorialId}`);
-    if (data.message) {
+    if (data?.message) {
         dispatch(deleteTutorialSuccess(tutorialId));
     }
 };
@@ -150,7 +150,7 @@ const updateTutorialFail = (err) => ({
 export const updateTutorial = (tutorialId, updateData) => async (dispatch) => {
     dispatch(updateTutorialStart());
     const data = await api.put(`/tutorials/${tutorialId}`, updateData);
-    if (data.id) {
+    if (data?.id) {
         dispatch(updateTutorialSuccess());
     } else {
         dispatch(updateTutorialFail(data));
@@ -185,7 +185,7 @@ const getSavedTutorialsSuccess = (savedTutorials) => ({
 export const getSavedTutorials = () => async (dispatch) => {
     dispatch(getSavedTutorialsStart());
     const data = await api.get("/auth/saved-tutorials");
-    if (data.length >= 0) {
+    if (data?.length >= 0) {
         dispatch(getSavedTutorialsSuccess(data));
     }
 };
@@ -199,7 +199,7 @@ const searchTutorialsSuccess = (tutorials) => ({
 });
 export const searchTutorials = (technologies) => async (dispatch) => {
     dispatch(searchTutorialsStart());
-    console.log(technologies);
+
     const data = await api.get(`/tutorials?tags=${JSON.stringify(technologies)}`);
     if (Array.isArray(data)) {
         dispatch(searchTutorialsSuccess(data));
