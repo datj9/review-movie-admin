@@ -111,6 +111,7 @@ class UpdateTutorialPage extends Component {
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
+            difficultyLevel: this.state.difficultyLevel,
             tags: searchTechnogies,
         });
     };
@@ -174,7 +175,7 @@ class UpdateTutorialPage extends Component {
                 ) : null}
                 <FormSelect className='mb-2' onChange={this.handleDifficulty}>
                     <option invalid={errors.difficultyLevel ? true : false}>
-                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : difficultyLevel}
+                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : `Độ khó: ${difficultyLevel}`}
                     </option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
