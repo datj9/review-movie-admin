@@ -93,7 +93,7 @@ class CreateTutorialPage extends Component {
     };
 
     handleDifficulty = (e) => {
-        this.setState({ difficultyLevel: e.target.value });
+        this.setState({ difficultyLevel: parseInt(e.target.value) });
     };
 
     createTutorial = () => {
