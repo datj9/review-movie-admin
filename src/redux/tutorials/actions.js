@@ -170,6 +170,7 @@ const clearErrorsAndLinkStart = () => ({
 });
 
 export const clearErrorsAndLink = () => (dispatch) => {
+    dispatch(clearTutorial());
     dispatch(clearErrorsAndLinkStart());
 };
 
