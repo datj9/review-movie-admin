@@ -9,7 +9,9 @@ import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Font from "@ckeditor/ckeditor5-font/src/font";
 import Image from "@ckeditor/ckeditor5-image/src/image";
 import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
 import ImageResize from "@ckeditor/ckeditor5-image/src/imageresize";
+import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
 import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository";
 import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
 import List from "@ckeditor/ckeditor5-list/src/list";
@@ -30,8 +32,10 @@ const editorConfiguration = {
         List,
         FileRepository,
         Image,
+        ImageUpload,
         ImageToolbar,
         ImageResize,
+        ImageCaption,
         CodeBlock,
     ],
     toolbar: [
@@ -42,13 +46,14 @@ const editorConfiguration = {
         "fontBackgroundColor",
         "bulletedList",
         "numberedList",
+        "codeBlock",
+        "imageUpload",
         "selectAll",
         "undo",
         "redo",
-        "codeBlock",
     ],
     image: {
-        toolbar: ["imageTextAlternative"],
+        toolbar: ["imageTextAlternative", "imageCaption"],
     },
     codeBlock: {
         languages: [{ language: "javascript", label: "JavaScript" }],

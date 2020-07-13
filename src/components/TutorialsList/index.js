@@ -2,17 +2,36 @@ import React, { Component } from "react";
 import "./style.css";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { Card, CardTitle, CardImg, CardBody, CardFooter, Button, Badge } from "shards-react";
+import {
+    Card,
+    CardTitle,
+    CardImg,
+    CardBody,
+    CardFooter,
+    Button,
+    Badge,
+    Modal,
+    ModalBody,
+    ModalHeader,
+    ModalFooter,
+} from "shards-react";
 import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
 import moment from "moment";
 
 class TutorialsList extends Component {
+    state = { openModalConfirmDelete: false };
+
+    toggleOpenModalConfirmDelete = () => {
+        this.setState({ openModalConfirmDelete: !this.state.openModalConfirmDelete });
+    };
+
     delTurorial = (id) => {
         this.props.delTurorialReq(id);
     };
 
     render() {
+        const { openModalConfirmDelete } = this.state;
         const { tutorials, currentUser, isLoading, isSearching, pageSize = 8 } = this.props;
 
         const Tutorials = () => {
@@ -26,9 +45,24 @@ class TutorialsList extends Component {
                                 <p>{tutorial.description}</p>
                             </CardBody>
                             <CardFooter className='d-flex justify-content-around'>
-                                <Button onClick={() => this.delTurorial(tutorial.id)} theme='danger'>
+                                <Button onClick={this.toggleOpenModalConfirmDelete} theme='danger'>
                                     Xóa Bài
                                 </Button>
+                                <Modal open={openModalConfirmDelete} toggle={this.toggleOpenModalConfirmDelete}>
+                                    <ModalHeader>Xác nhận xóa bài</ModalHeader>
+                                    <ModalBody>
+                                        <div>Bạn có chắc là muốn xóa bài này?</div>
+                                        <div>Tựa đề: {tutorial.title}</div>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button onClick={this.toggleOpenModalConfirmDelete} theme='secondary'>
+                                            Hủy
+                                        </Button>
+                                        <Button onClick={() => this.delTurorial(tutorial.id)} theme='danger'>
+                                            Xóa
+                                        </Button>
+                                    </ModalFooter>
+                                </Modal>
                                 <Link to={`${this.props.match.path}/update-tutorial/${tutorial.id}`}>
                                     <Button theme='warning'>Chỉnh sửa</Button>
                                 </Link>
