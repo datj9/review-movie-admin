@@ -59,6 +59,7 @@ const editorConfiguration = {
         languages: [
             { language: "javascript", label: "JavaScript" },
             { language: "css", label: "CSS" },
+            { language: "bash", label: "Bash" },
         ],
     },
 };

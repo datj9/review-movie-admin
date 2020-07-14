@@ -85,6 +85,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: true,
+                message: "",
             };
         case CREATE_TUTORIAL_SUCCESS:
             return {
@@ -114,6 +115,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: true,
+                message: "",
             };
         case UPDATE_TUTORIAL_SUCCESS:
             return {

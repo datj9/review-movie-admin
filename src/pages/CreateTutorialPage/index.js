@@ -56,7 +56,11 @@ const editorConfiguration = {
         toolbar: ["imageTextAlternative", "imageCaption"],
     },
     codeBlock: {
-        languages: [{ language: "javascript", label: "JavaScript" }],
+        languages: [
+            { language: "javascript", label: "JavaScript" },
+            { language: "css", label: "CSS" },
+            { language: "bash", label: "Bash" },
+        ],
     },
 };
 
