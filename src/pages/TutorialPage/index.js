@@ -8,10 +8,12 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
-import hljs from 'highlight.js/lib/highlight';
-import javascript from 'highlight.js/lib/languages/javascript';
+import hljs from "highlight.js/lib/highlight";
+import javascript from "highlight.js/lib/languages/javascript";
+import css from "highlight.js/lib/languages/css";
 
-hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("css", css);
 
 class TutorialPage extends Component {
     handleSaveTutorial = () => {
@@ -30,8 +32,8 @@ class TutorialPage extends Component {
     }
 
     componentDidUpdate() {
-        const nodes = document.querySelectorAll('pre');
-        console.log(nodes)
+        const nodes = document.querySelectorAll("pre");
+
         nodes.forEach((node) => {
             hljs.highlightBlock(node);
         });

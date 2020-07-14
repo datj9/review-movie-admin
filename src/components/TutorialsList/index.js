@@ -20,10 +20,14 @@ import CardLoader from "../CardLoader";
 import moment from "moment";
 
 class TutorialsList extends Component {
-    state = { openModalConfirmDelete: false };
+    state = { openModalConfirmDelete: false, activeId: "", activeTitle: "" };
 
-    toggleOpenModalConfirmDelete = () => {
-        this.setState({ openModalConfirmDelete: !this.state.openModalConfirmDelete });
+    toggleOpenModalConfirmDelete = ({ id, title }) => {
+        this.setState({
+            openModalConfirmDelete: !this.state.openModalConfirmDelete,
+            activeId: id ? id : undefined,
+            activeTitle: title ? title : undefined,
+        });
     };
 
     delTurorial = (id) => {
@@ -31,12 +35,13 @@ class TutorialsList extends Component {
     };
 
     render() {
-        const { openModalConfirmDelete } = this.state;
+        const { openModalConfirmDelete, activeId, activeTitle } = this.state;
         const { tutorials, currentUser, isLoading, isSearching, pageSize = 8 } = this.props;
 
         const Tutorials = () => {
+            let tutorialsList = [];
             if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
-                return tutorials.map((tutorial) => (
+                tutorialsList = tutorials.map((tutorial) => (
                     <div className='card-item-admin text-decoration-none text-dark' key={tutorial.id}>
                         <Card>
                             <CardImg src={tutorial.thumbnailUrl} />
@@ -45,24 +50,10 @@ class TutorialsList extends Component {
                                 <p>{tutorial.description}</p>
                             </CardBody>
                             <CardFooter className='d-flex justify-content-around'>
-                                <Button onClick={this.toggleOpenModalConfirmDelete} theme='danger'>
+                                <Button onClick={() => this.toggleOpenModalConfirmDelete(tutorial)} theme='danger'>
                                     Xóa Bài
                                 </Button>
-                                <Modal open={openModalConfirmDelete} toggle={this.toggleOpenModalConfirmDelete}>
-                                    <ModalHeader>Xác nhận xóa bài</ModalHeader>
-                                    <ModalBody>
-                                        <div>Bạn có chắc là muốn xóa bài này?</div>
-                                        <div>Tựa đề: {tutorial.title}</div>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button onClick={this.toggleOpenModalConfirmDelete} theme='secondary'>
-                                            Hủy
-                                        </Button>
-                                        <Button onClick={() => this.delTurorial(tutorial.id)} theme='danger'>
-                                            Xóa
-                                        </Button>
-                                    </ModalFooter>
-                                </Modal>
+
                                 <Link to={`${this.props.match.path}/update-tutorial/${tutorial.id}`}>
                                     <Button theme='warning'>Chỉnh sửa</Button>
                                 </Link>
@@ -70,6 +61,26 @@ class TutorialsList extends Component {
                         </Card>
                     </div>
                 ));
+                return (
+                    <>
+                        {tutorialsList}
+                        <Modal open={openModalConfirmDelete} toggle={this.toggleOpenModalConfirmDelete}>
+                            <ModalHeader>Xác nhận xóa bài</ModalHeader>
+                            <ModalBody>
+                                <div>Bạn có chắc là muốn xóa bài này?</div>
+                                <div>Tựa đề: {activeTitle}</div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button onClick={this.toggleOpenModalConfirmDelete} theme='secondary'>
+                                    Hủy
+                                </Button>
+                                <Button onClick={() => this.delTurorial(activeId)} theme='danger'>
+                                    Xóa
+                                </Button>
+                            </ModalFooter>
+                        </Modal>
+                    </>
+                );
             } else {
                 return tutorials.map((tutorial) => (
                     <Link
