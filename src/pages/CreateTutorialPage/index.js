@@ -93,7 +93,7 @@ class CreateTutorialPage extends Component {
     };
 
     handleReadingTime = (e) => {
-        this.setState({ handleReadingTime: +e.target.value });
+        this.setState({ readingTime: +e.target.value });
     };
 
     handleTechChange = (e, tech) => {
@@ -120,6 +120,7 @@ class CreateTutorialPage extends Component {
             description: this.state.description,
             content: this.state.editorValue,
             difficultyLevel: this.state.difficultyLevel,
+            readingTime: this.state.readingTime,
             tags: searchTechnogies,
         });
     };
