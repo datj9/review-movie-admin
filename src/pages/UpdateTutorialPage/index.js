@@ -74,6 +74,7 @@ class UpdateTutorialPage extends Component {
             gotTutorial: false,
             thumbnailUrl: "",
             difficultyLevel: 0,
+            readingTime: 1,
             technologies: { ReactJS: false, JavaScript: false },
         };
     }
@@ -110,6 +111,10 @@ class UpdateTutorialPage extends Component {
         this.setState({ difficultyLevel: parseInt(e.target.value) });
     };
 
+    handleReadingTime = (e) => {
+        this.setState({ readingTime: +e.target.value });
+    };
+
     updateTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
@@ -120,6 +125,7 @@ class UpdateTutorialPage extends Component {
             description: this.state.description,
             content: this.state.editorValue,
             difficultyLevel: this.state.difficultyLevel,
+            readingTime: this.state.readingTime,
             tags: searchTechnogies,
         });
     };
@@ -139,6 +145,7 @@ class UpdateTutorialPage extends Component {
                 description: tutorial.description,
                 editorValue: tutorial.content,
                 difficultyLevel: tutorial.difficultyLevel,
+                readingTime: tutorial.readingTime,
                 technologies,
                 gotTutorial: true,
             };
@@ -156,7 +163,7 @@ class UpdateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue, title, description, difficultyLevel, technologies } = this.state;
+        const { editorValue, title, description, difficultyLevel, readingTime, technologies } = this.state;
         const { linkUrl, isUploading, isLoading, tutorial, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -180,6 +187,16 @@ class UpdateTutorialPage extends Component {
                 <FormInput value={description} placeholder='Mô tả' className='mb-3' onChange={this.handleDescription} />
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
+                ) : null}
+                <FormInput
+                    value={readingTime}
+                    type='number'
+                    placeholder='Thời gian đọc'
+                    className='mb-3'
+                    onChange={this.handleReadingTime}
+                />
+                {errors.readingTime && errors.readingTime.includes("required") ? (
+                    <div className='text-danger mb-3'>Vui lòng nhập thời gian đọc</div>
                 ) : null}
                 <FormSelect className='mb-2' onChange={this.handleDifficulty}>
                     <option invalid={errors.difficultyLevel ? true : false}>

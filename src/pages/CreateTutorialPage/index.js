@@ -71,6 +71,7 @@ class CreateTutorialPage extends Component {
         description: "",
         thumbnailUrl: "",
         difficultyLevel: 0,
+        readingTime: 1,
         technologies: { ReactJS: false, JavaScript: false },
     };
 
@@ -89,6 +90,10 @@ class CreateTutorialPage extends Component {
 
     handleDescription = (e) => {
         this.setState({ description: e.target.value });
+    };
+
+    handleReadingTime = (e) => {
+        this.setState({ handleReadingTime: +e.target.value });
     };
 
     handleTechChange = (e, tech) => {
@@ -148,6 +153,15 @@ class CreateTutorialPage extends Component {
                 <FormInput placeholder='Mô tả' className='mb-3' onChange={this.handleDescription} />
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
+                ) : null}
+                <FormInput
+                    type='number'
+                    placeholder='Thời gian đọc'
+                    className='mb-3'
+                    onChange={this.handleReadingTime}
+                />
+                {errors.readingTime && errors.readingTime.includes("required") ? (
+                    <div className='text-danger mb-3'>Vui lòng nhập thời gian đọc</div>
                 ) : null}
                 <FormSelect className='mb-2' onChange={this.handleDifficulty}>
                     <option invalid={errors.difficultyLevel ? true : false}>
