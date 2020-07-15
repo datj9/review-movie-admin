@@ -53,6 +53,16 @@ const Header = (props) => {
                                 </NavLink>
                             </li>
                         ) : null}
+                        {currentUser?.userType === "admin" ? (
+                            <li
+                                onClick={closeNav}
+                                className='nav-item d-flex align-items-center justify-content-center'
+                            >
+                                <NavLink className='nav-link' to='/admin/tracking-users'>
+                                    Kiểm tra IP
+                                </NavLink>
+                            </li>
+                        ) : null}
                         {isAuthenticated ? null : (
                             <li onClick={closeNav} className='nav-item d-flex justify-content-center'>
                                 <NavLink className='nav-link' to='/sign-up'>

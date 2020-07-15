@@ -16,6 +16,7 @@ import { setUser } from "./redux/user/actions";
 import TutorialPage from "./pages/TutorialPage";
 import UpdateTutorialPage from "./pages/UpdateTutorialPage";
 import SavedTutorialsPage from "./pages/SavedTutorialsPage";
+import TrackingUser from "./pages/TrackingUser";
 
 class App extends Component {
     authorize = (Page) => {
@@ -60,6 +61,7 @@ class App extends Component {
                         path='/admin/tutorials/update-tutorial/:tutorialId'
                         render={() => this.authorize(UpdateTutorialPage)}
                     />
+                    <Route exact path='/admin/tracking-users' render={() => this.authorize(TrackingUser)} />
                     <Route exact path='/' component={HomePage} />
                 </Switch>
             </Router>
