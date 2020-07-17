@@ -86,9 +86,7 @@ class UpdateTutorialPage extends Component {
     }
 
     handleEditorValue = (event, editor) => {
-        const data = editor.getData();
-        console.log(data);
-        this.setState({ editorValue: data });
+        this.setState({ editorValue: editor.getData() });
     };
 
     handleThumbnailUrl = (e) => {
@@ -262,7 +260,6 @@ class UpdateTutorialPage extends Component {
                     onInit={(editor) => {
                         console.log(Array.from(editor.ui.componentFactory.names()));
                         editor.ui.view.editable.element.style.height = "200px";
-                        console.log(editor.plugins.has("FileRepository"));
                         editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
                             return new UploadAdapter(loader);
                         };
