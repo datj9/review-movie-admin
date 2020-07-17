@@ -14,6 +14,8 @@ import ImageResize from "@ckeditor/ckeditor5-image/src/imageresize";
 import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
 import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository";
 import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
+import Indent from "@ckeditor/ckeditor5-indent/src/indent";
+import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
@@ -37,6 +39,8 @@ const editorConfiguration = {
         ImageResize,
         ImageCaption,
         CodeBlock,
+        Indent,
+        IndentBlock,
     ],
     toolbar: [
         "heading",
@@ -47,6 +51,8 @@ const editorConfiguration = {
         "bulletedList",
         "numberedList",
         "codeBlock",
+        "outdent",
+        "indent",
         "imageUpload",
         "selectAll",
         "undo",
