@@ -21,7 +21,7 @@ export const fetchTutorials = () => async (dispatch) => {
     dispatch(fetchTutorialsStart());
     try {
         const data = await api.get("/tutorials");
-        dispatch(fetchTutorialsSuccess(data));
+        dispatch(fetchTutorialsSuccess(data.tutorials));
     } catch (error) {
         dispatch(fetchTutorialsFailure(error));
     }
