@@ -78,7 +78,7 @@ class CreateTutorialPage extends Component {
         thumbnailUrl: "",
         difficultyLevel: 0,
         readingTime: 1,
-        technologies: { ReactJS: false, JavaScript: false },
+        technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
     };
 
     handleEditorValue = (event, editor) => {
@@ -190,6 +190,13 @@ class CreateTutorialPage extends Component {
                     </FormCheckbox>
                     <FormCheckbox
                         inline
+                        checked={technologies.TypeScript}
+                        onChange={(e) => this.handleTechChange(e, "TypeScript")}
+                    >
+                        TypeScript
+                    </FormCheckbox>
+                    <FormCheckbox
+                        inline
                         checked={technologies.ReactJS}
                         onChange={(e) => this.handleTechChange(e, "ReactJS")}
                     >
@@ -231,12 +238,6 @@ class CreateTutorialPage extends Component {
                         };
                     }}
                     onChange={this.handleEditorValue}
-                    onBlur={(event, editor) => {
-                        console.log("Blur.", editor);
-                    }}
-                    onFocus={(event, editor) => {
-                        console.log("Focus.", editor);
-                    }}
                 />
                 {errors.content && errors.content.includes("required") ? (
                     <div className='text-danger'>Vui lòng nhập nội dung</div>
