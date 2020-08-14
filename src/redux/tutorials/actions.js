@@ -4,7 +4,7 @@ import BaseApi from "../../api";
 const api = BaseApi();
 
 const fetchTutorialsStart = () => ({
-    type: actionTypes.FETCH_ONE_TUTORIAL_START,
+    type: actionTypes.FETCH_TUTORIALS_START,
 });
 
 const fetchTutorialsSuccess = (tutorials) => ({
@@ -17,11 +17,12 @@ const fetchTutorialsFailure = (err) => ({
     payload: err,
 });
 
-export const fetchTutorials = () => async (dispatch) => {
+export const fetchTutorials = (pageIndex = 1, pageSize = 9) => async (dispatch) => {
     dispatch(fetchTutorialsStart());
+
     try {
-        const data = await api.get("/tutorials");
-        dispatch(fetchTutorialsSuccess(data.tutorials));
+        const data = await api.get(`/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}`);
+        dispatch(fetchTutorialsSuccess(data));
     } catch (error) {
         dispatch(fetchTutorialsFailure(error));
     }
@@ -140,6 +141,12 @@ const clearTutorialStart = () => ({
 
 export const clearTutorial = () => (dispatch) => {
     dispatch(clearTutorialStart());
+};
+
+export const clearAllTutorials = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.CLEAR_ALL_TUTORIALS,
+    });
 };
 
 const clearErrorsAndLinkStart = () => ({

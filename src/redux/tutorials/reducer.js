@@ -20,13 +20,16 @@ import {
     GET_SAVED_TUTORIALS_SUCCESS,
     SEARCH_TUTORIALS_START,
     SEARCH_TUTORIALS_SUCCESS,
+    CLEAR_ALL_TUTORIALS,
 } from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
     isSearching: false,
+    isFetchingMore: false,
     loaded: false,
     tutorials: [],
+    total: 0,
     tutorial: {},
     linkUrl: "",
     isUploading: false,
@@ -40,18 +43,22 @@ export default (state = INITIAL_STATE, action) => {
         case FETCH_TUTORIALS_START:
             return {
                 ...state,
-                isLoading: true,
+                [state.tutorials.length === 0 ? "isLoading" : "isFetchingMore"]: true,
             };
         case FETCH_TUTORIALS_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                tutorials: action.payload,
+                [state.tutorials.length === 0 ? "isLoading" : "isFetchingMore"]: false,
+                tutorials:
+                    state.tutorials.length === 0
+                        ? action.payload.tutorials
+                        : state.tutorials.concat(action.payload.tutorials),
+                total: action.payload.total,
             };
         case FETCH_TUTORIALS_FAILURE:
             return {
                 ...state,
-                isLoading: false,
+                [state.tutorials.length === 0 ? "isLoading" : "isFetchingMore"]: false,
                 error: action.payload,
             };
         case FETCH_ONE_TUTORIAL_START:
@@ -80,6 +87,11 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 isUploading: false,
                 linkUrl: action.payload,
+            };
+        case CLEAR_ALL_TUTORIALS:
+            return {
+                ...state,
+                tutorials: [],
             };
         case CREATE_TUTORIAL_START:
             return {

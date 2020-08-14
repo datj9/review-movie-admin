@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./style.css";
 import { Form, FormInput, FormGroup, Button } from "shards-react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -38,6 +39,7 @@ class SignUpPage extends Component {
 
         const EmailError = () => {
             const { email } = errors;
+
             if (email && email.includes("required")) {
                 return <div className='text-danger mt-1'>Vui lòng nhập vào email</div>;
             }
@@ -51,6 +53,7 @@ class SignUpPage extends Component {
         };
         const PasswordError = () => {
             const { password } = errors;
+
             if (password && password.includes("required")) {
                 return <div className='text-danger mt-1'>Vui lòng nhập vào mật khẩu</div>;
             }
@@ -62,6 +65,7 @@ class SignUpPage extends Component {
 
         const ConfirmPasswordError = () => {
             const { confirmPassword } = errors;
+
             if (confirmPassword && confirmPassword.includes("required")) {
                 return <div className='text-danger mt-1'>Vui lòng nhập vào phần xác nhận mật khẩu</div>;
             }
@@ -73,6 +77,7 @@ class SignUpPage extends Component {
 
         const NameError = () => {
             const { name } = errors;
+
             if (name && name.includes("required")) {
                 return <div className='text-danger mt-1'>Vui lòng nhập vào tên</div>;
             }
@@ -83,7 +88,7 @@ class SignUpPage extends Component {
             return <Redirect to='/' />;
         }
         return (
-            <div className='container my-5'>
+            <div className='container signup'>
                 <h3 className='mb-3'>Đăng ký tài khoản</h3>
                 <Form onSubmit={this.submitForm}>
                     <FormGroup>
@@ -130,10 +135,10 @@ class SignUpPage extends Component {
                         <ConfirmPasswordError />
                     </FormGroup>
                     <Button disabled={isLoading} pill type='submit' onClick={this.submitForm}>
-                        {isLoading ? "Đang Đăng Ký" : "Đăng Ký"}
+                        {isLoading ? "Đang Đăng Ký ..." : "Đăng Ký"}
                     </Button>
                     <div className='mt-2'>
-                        <span>Bạn đã có tài khoản </span>
+                        <span>Bạn đã có tài khoản? </span>
                         <Link className='text-decoration-none' to='/sign-in'>
                             Đăng Nhập
                         </Link>

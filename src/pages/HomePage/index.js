@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { Dropdown, DropdownToggle, DropdownMenu, FormCheckbox, DropdownItem, Button } from "shards-react";
 import { connect } from "react-redux";
-import { fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
+import { clearAllTutorials, fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
 
 class HomePage extends React.Component {
@@ -30,12 +30,16 @@ class HomePage extends React.Component {
         this.props.fetchTutorialsReq();
     }
 
+    componentWillUnmount() {
+        this.props.clearAllTutorialsInStore();
+    }
+
     render() {
         const { technologies } = this.state;
         const { isSearching } = this.props;
 
         return (
-            <div className='container py-5'>
+            <div className='container homepage pb-3'>
                 <div className='breadcrumb-container'>
                     <span className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</span>
                     <Dropdown toggle={this.toggle} open={this.state.open} className='d-table'>
@@ -84,6 +88,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchTutorialsReq: () => dispatch(fetchTutorials()),
     searchTutorialsReq: (technologies) => dispatch(searchTutorials(technologies)),
+    clearAllTutorialsInStore: () => dispatch(clearAllTutorials()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
