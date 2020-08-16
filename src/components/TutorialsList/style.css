@@ -13,16 +13,16 @@
 }
 
 .card-item-admin {
-    width: 30%;
-    margin: 0 2.5% 5%;
+    width: 22.75%;
+    margin: 0 1.5% 5%;
 }
 
-.card-item-admin:nth-child(3n-2) {
-    margin: 0 2.5% 5% 0;
+.card-item-admin:nth-child(4n-3) {
+    margin: 0 1.5% 5% 0;
 }
 
-.card-item-admin:nth-child(3n) {
-    margin: 0 0 5% 2.5%;
+.card-item-admin:nth-child(4n) {
+    margin: 0 0 5% 1.5%;
 }
 
 .card-item-admin img {

@@ -117,3 +117,21 @@ export const saveTutorial = (tutorialId) => async (dispatch) => {
         dispatch(saveTutorialFail(data));
     }
 };
+
+const searchUserStart = () => ({
+    type: actionTypes.SEARCH_USER_START,
+});
+
+const searchUserSuccess = (users) => ({
+    type: actionTypes.SEARCH_USER_SUCCESS,
+    payload: users,
+});
+
+export const searchUser = (name, email) => async (dispatch) => {
+    dispatch(searchUserStart());
+    const data = await api.get(`/users?name=${name}&&email=${email}`);
+
+    if (Array.isArray(data)) {
+        dispatch(searchUserSuccess(data));
+    }
+};

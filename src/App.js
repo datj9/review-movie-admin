@@ -3,9 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import AdminPage from "./pages/AdminPage";
@@ -15,8 +14,8 @@ import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
 import TutorialPage from "./pages/TutorialPage";
 import UpdateTutorialPage from "./pages/UpdateTutorialPage";
-import SavedTutorialsPage from "./pages/SavedTutorialsPage";
 import TrackingUser from "./pages/TrackingUser";
+import CreateMentor from "./pages/CreateMentor";
 
 class App extends Component {
     authorize = (Page) => {
@@ -24,15 +23,7 @@ class App extends Component {
         if (currentUser.userType === "admin") {
             return <Page />;
         }
-        return <Redirect to='/' />;
-    };
-
-    authenticate = (Page) => {
-        const { isAuthenticated } = this.props;
-        if (isAuthenticated) {
-            return <Page />;
-        }
-        return <Redirect to='/sign-in' />;
+        return <SignInPage />;
     };
 
     componentDidMount() {
@@ -46,23 +37,17 @@ class App extends Component {
             <Router>
                 <Header />
                 <Switch>
+                    <Route exact path='/' render={() => this.authorize(AdminPage)} />
                     <Route exact path='/sign-up' component={SignUpPage} />
-                    <Route exact path='/sign-in' component={SignInPage} />
-                    <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
-                    <Route exact path='/users/saved-tutorials' render={() => this.authenticate(SavedTutorialsPage)} />
-                    <Route exact path='/admin/tutorials' render={() => this.authorize(AdminPage)} />
+                    <Route exact path='/create-tutorial' render={() => this.authorize(CreateTutorialPage)} />
                     <Route
                         exact
-                        path='/admin/tutorials/create-tutorial'
-                        render={() => this.authorize(CreateTutorialPage)}
-                    />
-                    <Route
-                        exact
-                        path='/admin/tutorials/update-tutorial/:tutorialId'
+                        path='/update-tutorial/:tutorialId'
                         render={() => this.authorize(UpdateTutorialPage)}
                     />
-                    <Route exact path='/admin/tracking-users' render={() => this.authorize(TrackingUser)} />
-                    <Route exact path='/' component={HomePage} />
+                    <Route exact path='/create-mentor' component={CreateMentor} />
+                    <Route exact path='/tracking-users' render={() => this.authorize(TrackingUser)} />
+                    <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                 </Switch>
             </Router>
         );

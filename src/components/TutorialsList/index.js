@@ -40,22 +40,34 @@ class TutorialsList extends Component {
 
         const Tutorials = () => {
             let tutorialsList = [];
-            if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
+            if (currentUser.userType === "admin") {
                 tutorialsList = tutorials.map((tutorial) => (
                     <div className='card-item-admin text-decoration-none text-dark' key={tutorial.id}>
                         <Card>
                             <CardImg src={tutorial.thumbnailUrl} />
                             <CardBody>
-                                <CardTitle>{tutorial.title}</CardTitle>
-                                <p>{tutorial.description}</p>
+                                <CardTitle>
+                                    {tutorial.title.length <= 30 ? tutorial.title : tutorial.title.slice(0, 30)}
+                                </CardTitle>
+                                <p>
+                                    {tutorial.description <= 30
+                                        ? tutorial.description
+                                        : tutorial.description.slice(0, 30)}
+                                </p>
                             </CardBody>
                             <CardFooter className='d-flex justify-content-around'>
-                                <Button onClick={() => this.toggleOpenModalConfirmDelete(tutorial)} theme='danger'>
+                                <Button
+                                    className='mr-2'
+                                    onClick={() => this.toggleOpenModalConfirmDelete(tutorial)}
+                                    theme='danger'
+                                >
                                     Xóa Bài
                                 </Button>
 
-                                <Link to={`${this.props.match.path}/update-tutorial/${tutorial.id}`}>
-                                    <Button theme='warning'>Chỉnh sửa</Button>
+                                <Link to={`/update-tutorial/${tutorial.id}`}>
+                                    <Button className='ml-2' theme='warning'>
+                                        Chỉnh sửa
+                                    </Button>
                                 </Link>
                             </CardFooter>
                         </Card>

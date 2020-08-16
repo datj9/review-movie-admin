@@ -34,32 +34,17 @@ const Header = () => {
                                 Bài hướng dẫn
                             </NavLink>
                         </li>
-                        {isAuthenticated ? (
-                            <li
-                                onClick={closeNav}
-                                className='nav-item d-flex align-items-center justify-content-center'
-                            >
-                                <NavLink className='nav-link' to='/users/saved-tutorials'>
-                                    Bài viết đã lưu
-                                </NavLink>
-                            </li>
-                        ) : null}
+                        <li onClick={closeNav} className='nav-item d-flex align-items-center justify-content-center'>
+                            <NavLink className='nav-link' to='/create-mentor'>
+                                Tạo Mentor
+                            </NavLink>
+                        </li>
                         {currentUser?.userType === "admin" ? (
                             <li
                                 onClick={closeNav}
                                 className='nav-item d-flex align-items-center justify-content-center'
                             >
-                                <NavLink className='nav-link' to='/admin/tutorials'>
-                                    Trang Admin
-                                </NavLink>
-                            </li>
-                        ) : null}
-                        {currentUser?.userType === "admin" ? (
-                            <li
-                                onClick={closeNav}
-                                className='nav-item d-flex align-items-center justify-content-center'
-                            >
-                                <NavLink className='nav-link' to='/admin/tracking-users'>
+                                <NavLink className='nav-link' to='/tracking-users'>
                                     Kiểm tra IP
                                 </NavLink>
                             </li>

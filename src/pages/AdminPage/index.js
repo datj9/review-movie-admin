@@ -32,11 +32,11 @@ export default function AdminPage() {
     }, [tutorials.length, pageIndex]);
 
     return (
-        <div className='container py-5'>
+        <div className='container manage-tutorials'>
             <div className='title text-dark font-weight-bold mb-3'>Các bài hướng dẫn</div>
             <hr />
             <FormInput placeholder='Tìm kiếm bài hướng dẫn theo tiêu đề' className='mb-3' />
-            <Link to='/admin/tutorials/create-tutorial'>
+            <Link to='/create-tutorial'>
                 <Button className='mb-3'>Tạo Bài Hướng Dẫn</Button>
             </Link>
             <TutorialsList />

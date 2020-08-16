@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./style.css";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
@@ -151,7 +152,7 @@ class CreateTutorialPage extends Component {
         };
 
         return (
-            <div className='container my-5'>
+            <div className='container create-tutorial-page'>
                 <div className='mb-5 h3'>Tạo bài hướng dẫn</div>
                 <FormInput placeholder='Tiêu đề' className='mb-3' onChange={this.handleTitle} />
                 {errors.title && errors.title.includes("required") ? (

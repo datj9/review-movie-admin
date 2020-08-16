@@ -26,7 +26,7 @@ class SignInPage extends Component {
 
     render() {
         const { isAuthenticated, isLoading, errorsFromStore: errors } = this.props;
-        const { tutorialId } = queryString.parse(this.props.location.search);
+        const { tutorialId } = queryString.parse(this.props.location?.search);
 
         const EmailError = () => {
             if (errors.email && errors.email.includes("exist")) {

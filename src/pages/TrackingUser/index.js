@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrackings } from "../../redux/trackings/actions";
 import moment from "moment";
@@ -10,11 +11,10 @@ const TrackingUser = () => {
 
     useEffect(() => {
         dispatch(getTrackings());
-        // eslint-disable-next-line
-    }, [trackings.length]);
+    }, [dispatch]);
 
     return (
-        <div className='container mt-5'>
+        <div className='container tracking-page'>
             {isLoading ? (
                 <div className='text-center'>Đang tải...</div>
             ) : (
