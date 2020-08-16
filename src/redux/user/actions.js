@@ -127,11 +127,44 @@ const searchUserSuccess = (users) => ({
     payload: users,
 });
 
-export const searchUser = (name, email) => async (dispatch) => {
+const searchUserFail = (errors) => ({
+    type: actionTypes.SEARCH_USER_FAILURE,
+    payload: errors,
+});
+
+export const searchUser = (searchValue, searchBy) => async (dispatch) => {
     dispatch(searchUserStart());
-    const data = await api.get(`/users?name=${name}&&email=${email}`);
+    const reqURL = `/users/search?${searchBy === "email" ? `email=${searchValue}` : `name=${searchValue}`}`;
+    const data = await api.get(reqURL);
 
     if (Array.isArray(data)) {
         dispatch(searchUserSuccess(data));
+    } else {
+        dispatch(searchUserFail(data));
+    }
+};
+
+const createMentorStart = () => ({
+    type: actionTypes.CREATE_MENTOR_START,
+});
+
+const createMentorSuccess = (mentor) => ({
+    type: actionTypes.CREATE_MENTOR_SUCCESS,
+    payload: mentor,
+});
+
+const createMentorFail = (errors) => ({
+    type: actionTypes.CREATE_MENTOR_FAILURE,
+    payload: errors,
+});
+
+export const createMentor = (mentorInfo) => async (dispatch) => {
+    dispatch(createMentorStart());
+    const data = await api.post("/mentors", mentorInfo);
+
+    if (data.id) {
+        dispatch(createMentorSuccess(data));
+    } else {
+        dispatch(createMentorFail(data));
     }
 };

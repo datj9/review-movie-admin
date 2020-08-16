@@ -1,22 +1,12 @@
-import {
-    SIGN_UP_START,
-    SIGN_UP_SUCCESS,
-    SIGN_UP_FAILURE,
-    SET_USER_START,
-    SIGN_OUT_START,
-    SIGN_IN_START,
-    SIGN_IN_SUCCESS,
-    SIGN_IN_FAILURE,
-    CLEAR_ERRORS,
-    SAVE_TUTORIAL_START,
-    SAVE_TUTORIAL_SUCCESS,
-    SAVE_TUTORIAL_FAILURE,
-} from "./action-types";
+import * as actionTypes from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
+    isSearching: false,
     currentUser: {},
     savedTutorials: [],
+    usersList: [],
+    mentor: {},
     isAuthenticated: false,
     errors: {},
     message: "",
@@ -24,76 +14,111 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SIGN_UP_START:
+        case actionTypes.SIGN_UP_START:
             return {
                 ...state,
                 isLoading: true,
             };
-        case SIGN_UP_SUCCESS:
+        case actionTypes.SIGN_UP_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 currentUser: action.payload,
                 isAuthenticated: true,
             };
-        case SIGN_UP_FAILURE:
+        case actionTypes.SIGN_UP_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 errors: action.payload,
             };
-        case SET_USER_START:
+        case actionTypes.SET_USER_START:
             return {
                 ...state,
                 currentUser: action.payload,
                 isAuthenticated: true,
             };
-        case SIGN_OUT_START:
+        case actionTypes.SIGN_OUT_START:
             return {
                 ...state,
                 currentUser: {},
                 isAuthenticated: false,
             };
-        case SIGN_IN_START:
+        case actionTypes.SIGN_IN_START:
             return {
                 ...state,
                 isLoading: true,
             };
-        case SIGN_IN_SUCCESS:
+        case actionTypes.SIGN_IN_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 currentUser: action.payload,
                 isAuthenticated: true,
             };
-        case SIGN_IN_FAILURE:
+        case actionTypes.SIGN_IN_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 errors: action.payload,
             };
-        case SAVE_TUTORIAL_START:
+        case actionTypes.SAVE_TUTORIAL_START:
             return { ...state, isLoading: true };
-        case SAVE_TUTORIAL_SUCCESS:
-            const currentUser = state.currentUser;
-            currentUser.savedTutorials = action.payload;
-
+        case actionTypes.SAVE_TUTORIAL_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                currentUser,
+                currentUser: {
+                    ...state.currentUser,
+                    savedTutorials: action.payload,
+                },
                 message: "success",
             };
-        case SAVE_TUTORIAL_FAILURE:
+        case actionTypes.SAVE_TUTORIAL_FAILURE:
             return {
                 ...state,
                 isLoading: false,
             };
-        case CLEAR_ERRORS:
+        case actionTypes.CLEAR_ERRORS:
             return {
                 ...state,
                 errors: {},
                 message: "",
+            };
+        case actionTypes.SEARCH_USER_START:
+            return {
+                ...state,
+                isSearching: true,
+            };
+        case actionTypes.SEARCH_USER_SUCCESS:
+            return {
+                ...state,
+                usersList: action.payload,
+                isSearching: false,
+                message: "Search successfully",
+            };
+        case actionTypes.SEARCH_USER_FAILURE:
+            return {
+                ...state,
+                isSearching: false,
+                errors: action.payload,
+            };
+        case actionTypes.CREATE_MENTOR_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case actionTypes.CREATE_MENTOR_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                mentor: action.payload,
+            };
+        case actionTypes.CREATE_MENTOR_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                errors: action.payload,
             };
         default:
             return state;

@@ -29,25 +29,33 @@ const Header = () => {
                 </button>
                 <div className={`${collapse && "show"} collapse navbar-collapse justify-content-end bg-white`}>
                     <ul className='navbar-nav '>
-                        <li onClick={closeNav} className='nav-item d-flex align-items-center justify-content-center'>
-                            <NavLink className='nav-link' to='/'>
-                                Bài hướng dẫn
-                            </NavLink>
-                        </li>
-                        <li onClick={closeNav} className='nav-item d-flex align-items-center justify-content-center'>
-                            <NavLink className='nav-link' to='/create-mentor'>
-                                Tạo Mentor
-                            </NavLink>
-                        </li>
                         {currentUser?.userType === "admin" ? (
-                            <li
-                                onClick={closeNav}
-                                className='nav-item d-flex align-items-center justify-content-center'
-                            >
-                                <NavLink className='nav-link' to='/tracking-users'>
-                                    Kiểm tra IP
-                                </NavLink>
-                            </li>
+                            <>
+                                <li
+                                    onClick={closeNav}
+                                    className='nav-item d-flex align-items-center justify-content-center'
+                                >
+                                    <NavLink className='nav-link' to='/'>
+                                        Bài hướng dẫn
+                                    </NavLink>
+                                </li>
+                                <li
+                                    onClick={closeNav}
+                                    className='nav-item d-flex align-items-center justify-content-center'
+                                >
+                                    <NavLink className='nav-link' to='/create-mentor'>
+                                        Tạo Mentor
+                                    </NavLink>
+                                </li>
+                                <li
+                                    onClick={closeNav}
+                                    className='nav-item d-flex align-items-center justify-content-center'
+                                >
+                                    <NavLink className='nav-link' to='/tracking-users'>
+                                        Kiểm tra IP
+                                    </NavLink>
+                                </li>
+                            </>
                         ) : null}
                         {isAuthenticated ? null : (
                             <li onClick={closeNav} className='nav-item d-flex justify-content-center'>

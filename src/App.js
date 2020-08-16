@@ -45,7 +45,7 @@ class App extends Component {
                         path='/update-tutorial/:tutorialId'
                         render={() => this.authorize(UpdateTutorialPage)}
                     />
-                    <Route exact path='/create-mentor' component={CreateMentor} />
+                    <Route exact path='/create-mentor' render={() => this.authorize(CreateMentor)} />
                     <Route exact path='/tracking-users' render={() => this.authorize(TrackingUser)} />
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                 </Switch>
