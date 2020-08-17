@@ -26,9 +26,9 @@ export default function ManageMentor() {
     const ActiveButton = ({ mentor }) => {
         let buttonTitle;
 
-        if (isActivating && mentor.isActive) {
+        if (isActivating && idIsActivating === mentor.id && mentor.isActive) {
             buttonTitle = "Đang Hủy Active";
-        } else if (isActivating && !mentor.isActive) {
+        } else if (isActivating && idIsActivating === mentor.id && !mentor.isActive) {
             buttonTitle = "Đang Active";
         } else if (mentor.isActive) {
             buttonTitle = "Hủy Active";
