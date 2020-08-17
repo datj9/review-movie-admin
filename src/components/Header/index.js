@@ -35,16 +35,16 @@ const Header = () => {
                                     onClick={closeNav}
                                     className='nav-item d-flex align-items-center justify-content-center'
                                 >
-                                    <NavLink className='nav-link' to='/'>
-                                        Bài hướng dẫn
+                                    <NavLink className='nav-link' to='/create-mentor'>
+                                        Tạo Mentor
                                     </NavLink>
                                 </li>
                                 <li
                                     onClick={closeNav}
                                     className='nav-item d-flex align-items-center justify-content-center'
                                 >
-                                    <NavLink className='nav-link' to='/create-mentor'>
-                                        Tạo Mentor
+                                    <NavLink className='nav-link' to='/manage-mentor'>
+                                        Quản lý Mentor
                                     </NavLink>
                                 </li>
                                 <li

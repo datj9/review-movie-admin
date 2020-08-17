@@ -16,6 +16,7 @@ import TutorialPage from "./pages/TutorialPage";
 import UpdateTutorialPage from "./pages/UpdateTutorialPage";
 import TrackingUser from "./pages/TrackingUser";
 import CreateMentor from "./pages/CreateMentor";
+import ManageMentor from "./pages/ManageMentor";
 
 class App extends Component {
     authorize = (Page) => {
@@ -46,6 +47,7 @@ class App extends Component {
                         render={() => this.authorize(UpdateTutorialPage)}
                     />
                     <Route exact path='/create-mentor' render={() => this.authorize(CreateMentor)} />
+                    <Route exact path='/manage-mentor' render={() => this.authorize(ManageMentor)} />
                     <Route exact path='/tracking-users' render={() => this.authorize(TrackingUser)} />
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                 </Switch>

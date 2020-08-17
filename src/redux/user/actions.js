@@ -168,3 +168,49 @@ export const createMentor = (mentorInfo) => async (dispatch) => {
         dispatch(createMentorFail(data));
     }
 };
+
+const getMentorsListStart = () => ({
+    type: actionTypes.GET_MENTORS_START,
+});
+const getMentorsListSuccess = (mentorsList) => ({
+    type: actionTypes.GET_MENTORS_SUCCESS,
+    payload: mentorsList,
+});
+export const getMentorsList = () => async (dispatch) => {
+    dispatch(getMentorsListStart());
+    const data = await api.get("/mentors");
+    if (Array.isArray(data)) {
+        dispatch(getMentorsListSuccess(data));
+    }
+};
+
+const deleteMentorStart = () => ({
+    type: actionTypes.DELETE_MENTOR_START,
+});
+const deleteMentorSuccess = (id) => ({
+    type: actionTypes.DELETE_MENTOR_SUCCESS,
+    payload: id,
+});
+export const deleteMentor = (id) => async (dispatch) => {
+    dispatch(deleteMentorStart());
+    const data = await api.delete(`/mentors/${id}`);
+    if (data.message?.includes("success")) {
+        dispatch(deleteMentorSuccess(id));
+    }
+};
+
+const updateActiveOfMentorStart = () => ({
+    type: actionTypes.UPDATE_ACTIVE_OF_MENTOR_START,
+});
+const updateActiveOfMentorSuccess = (mentorId, isActive) => ({
+    type: actionTypes.UPDATE_ACTIVE_OF_MENTOR_SUCCESS,
+    payload: { isActive, mentorId },
+});
+
+export const updateActiveOfMentor = (mentorId, isActive) => async (dispatch) => {
+    dispatch(updateActiveOfMentorStart());
+    const data = await api.patch(`/mentors/update-active/${mentorId}`, { isActive });
+    if (data.message?.includes("success")) {
+        dispatch(updateActiveOfMentorSuccess(mentorId, isActive));
+    }
+};
