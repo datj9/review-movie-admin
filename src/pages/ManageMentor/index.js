@@ -37,7 +37,7 @@ export default function ManageMentor() {
         }
         return (
             <Button
-                disabled={isActivating && idIsActivating === mentor.id}
+                disabled={isActivating}
                 theme='warning'
                 className='mr-1'
                 onClick={() => handleActiveOfMentor(mentor)}
