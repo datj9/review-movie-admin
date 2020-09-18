@@ -1,75 +1,11 @@
 import React, { Component } from "react";
 import "./style.css";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
-import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
-import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-import Heading from "@ckeditor/ckeditor5-heading/src/heading";
-import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
-import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import Font from "@ckeditor/ckeditor5-font/src/font";
-import List from "@ckeditor/ckeditor5-list/src/list";
-import Image from "@ckeditor/ckeditor5-image/src/image";
-import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
-import ImageResize from "@ckeditor/ckeditor5-image/src/imageresize";
-import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
-import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
-import FileRepository from "@ckeditor/ckeditor5-upload/src/filerepository";
-import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
-import Indent from "@ckeditor/ckeditor5-indent/src/indent";
-import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
-import UploadAdapter from "../../adapter/UploadAdapter";
+import CustomEditor from "../../components/CustomEditor";
 import parse from "html-react-parser";
 import { FormInput, Button, Alert, FormCheckbox, FormSelect } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 import { withRouter } from "react-router-dom";
-
-const editorConfiguration = {
-    plugins: [
-        Essentials,
-        Paragraph,
-        Heading,
-        Bold,
-        Italic,
-        Font,
-        List,
-        FileRepository,
-        Image,
-        ImageToolbar,
-        ImageUpload,
-        ImageResize,
-        ImageCaption,
-        CodeBlock,
-        Indent,
-        IndentBlock,
-    ],
-    toolbar: [
-        "heading",
-        "bold",
-        "italic",
-        "fontBackgroundColor",
-        "bulletedList",
-        "numberedList",
-        "codeBlock",
-        "outdent",
-        "indent",
-        "imageUpload",
-        "selectAll",
-        "undo",
-        "redo",
-    ],
-    image: {
-        toolbar: ["imageTextAlternative", "imageCaption"],
-    },
-    codeBlock: {
-        languages: [
-            { language: "javascript", label: "JavaScript" },
-            { language: "css", label: "CSS" },
-            { language: "bash", label: "Bash" },
-        ],
-    },
-};
 
 class UpdateTutorialPage extends Component {
     constructor(props) {
@@ -261,19 +197,7 @@ class UpdateTutorialPage extends Component {
                 ) : null}
                 <ThumbnailImage />
 
-                <CKEditor
-                    editor={ClassicEditor}
-                    data={tutorial.content}
-                    config={editorConfiguration}
-                    onInit={(editor) => {
-                        console.log(Array.from(editor.ui.componentFactory.names()));
-                        editor.ui.view.editable.element.style.height = "200px";
-                        editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
-                            return new UploadAdapter(loader);
-                        };
-                    }}
-                    onChange={this.handleEditorValue}
-                />
+                <CustomEditor editorValue={tutorial.content} onChange={this.handleEditorValue} />
                 {errors.content && errors.content.includes("required") ? (
                     <div className='text-danger'>Vui lòng nhập nội dung</div>
                 ) : null}
