@@ -103,7 +103,6 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-                tutorials: state.tutorials.concat([action.payload]),
                 message: "success",
             };
         case CREATE_TUTORIAL_FAILURE:
