@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./style.css";
-import { Button } from "shards-react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../../redux/user/actions";
 
 const Header = () => {
-    const [collapse, setCollapse] = useState(false);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
@@ -14,75 +12,40 @@ const Header = () => {
     const signOutReq = () => {
         dispatch(signOut());
     };
-    const closeNav = () => {
-        setCollapse(false);
-    };
+
+    if (isAuthenticated === false) {
+        return null;
+    }
 
     return (
-        <nav className='navbar navbar-expand-md navbar-light bg-white'>
-            <div className='container'>
-                <NavLink to='/' className='brand text-dark text-decoration-none'>
-                    Code Class
+        <nav className='navbar' role='navigation' aria-label='main navigation'>
+            <div className='navbar-brand'>
+                <NavLink className='navbar-item' to='/'>
+                    <img alt='' src='https://bulma.io/images/bulma-logo.png' width='112' height='28' />
                 </NavLink>
-                <button onClick={() => setCollapse(!collapse)} type='button' className='navbar-toggler'>
-                    <span className='navbar-toggler-icon'></span>
-                </button>
-                <div className={`${collapse && "show"} collapse navbar-collapse justify-content-end bg-white`}>
-                    <ul className='navbar-nav '>
-                        {currentUser?.userType === "admin" ? (
-                            <>
-                                <li
-                                    onClick={closeNav}
-                                    className='nav-item d-flex align-items-center justify-content-center'
-                                >
-                                    <NavLink className='nav-link' to='/create-mentor'>
-                                        Tạo Mentor
-                                    </NavLink>
-                                </li>
-                                <li
-                                    onClick={closeNav}
-                                    className='nav-item d-flex align-items-center justify-content-center'
-                                >
-                                    <NavLink className='nav-link' to='/manage-mentor'>
-                                        Quản lý Mentor
-                                    </NavLink>
-                                </li>
-                                <li
-                                    onClick={closeNav}
-                                    className='nav-item d-flex align-items-center justify-content-center'
-                                >
-                                    <NavLink className='nav-link' to='/tracking-users'>
-                                        Kiểm tra IP
-                                    </NavLink>
-                                </li>
-                            </>
-                        ) : null}
-                        {isAuthenticated ? null : (
-                            <li onClick={closeNav} className='nav-item d-flex justify-content-center'>
-                                <NavLink className='nav-link' to='/sign-up'>
-                                    <Button pill>Đăng ký</Button>
-                                </NavLink>
-                            </li>
-                        )}
-                        {isAuthenticated ? null : (
-                            <li onClick={closeNav} className='nav-item d-flex justify-content-center'>
-                                <NavLink className='nav-link' to='/sign-in'>
-                                    <Button pill outline>
-                                        Đăng nhập
-                                    </Button>
-                                </NavLink>
-                            </li>
-                        )}
-                        {isAuthenticated ? (
-                            <li onClick={closeNav} className='nav-item d-flex justify-content-center'>
-                                <NavLink onClick={signOutReq} className='nav-link' to='/'>
-                                    <Button pill outline>
-                                        Đăng xuất
-                                    </Button>
-                                </NavLink>
-                            </li>
-                        ) : null}
-                    </ul>
+
+                <span
+                    role='button'
+                    className='navbar-burger burger'
+                    aria-label='menu'
+                    aria-expanded='false'
+                    target='navbarBasicExample'
+                >
+                    <span aria-hidden='true'></span>
+                    <span aria-hidden='true'></span>
+                    <span aria-hidden='true'></span>
+                </span>
+            </div>
+
+            <div id='navbarBasicExample' className='navbar-menu'>
+                <div className='navbar-start'>{/* <NavLink className='navbar-item'>Home</NavLink> */}</div>
+
+                <div className='navbar-end'>
+                    <div className='navbar-item'>
+                        <div onClick={signOutReq} className='buttons'>
+                            <span className='button is-light'>Log Out</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>

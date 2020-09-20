@@ -1,111 +1,97 @@
-import React, { Component } from "react";
-import "./style.css";
-import { Form, FormInput, FormGroup, Button } from "shards-react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { signIn, clearErrors } from "../../redux/user/actions";
-import queryString from "query-string";
+import React, { useRef, useEffect, useState } from "react";
+import "./style.scss";
+import { signIn } from "../../redux/user/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { CLEAR_ERRORS } from "../../redux/user/action-types";
 
-class SignInPage extends Component {
-    state = { email: "", password: "" };
+const SignInPage = () => {
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const dispatch = useDispatch();
+    const { errors, isSuccess, isLoading } = useSelector((state) => state.user);
+    const [emailErrMsg, setEmailErrMsg] = useState("");
+    const [passwordErrMsg, setPasswordErrMsg] = useState("");
 
-    handleEmail = (e) => {
-        this.setState({ email: e.target.value });
-    };
-    handlePassword = (e) => {
-        this.setState({ password: e.target.value });
-    };
-    submitForm = (e) => {
+    const submitFormLogin = async (e) => {
         e.preventDefault();
-        this.props.signInReq({ email: this.state.email, password: this.state.password });
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        dispatch(signIn({ email, password }, "local"));
     };
 
-    componentWillUnmount() {
-        this.props.clearErrorsReq();
-    }
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         this.props.location.replace("/");
+    //     }
 
-    render() {
-        const { isAuthenticated, isLoading, errorsFromStore: errors } = this.props;
-        const { tutorialId } = queryString.parse(this.props.location?.search);
+    //     return () => {
+    //         dispatch({ type: CLEAR_ERRORS });
+    //     };
+    // }, [isSuccess, dispatch]);
 
-        const EmailError = () => {
-            if (errors.email && errors.email.includes("exist")) {
-                return <div className='text-danger mt-1'>Email không tồn tại</div>;
-            }
-            if (errors.email && errors.email.includes("required")) {
-                return <div className='text-danger mt-1'>Vui lòng nhập vào email</div>;
-            }
-            return null;
-        };
-        const PasswordError = () => {
-            if (errors.password && errors.password.includes("does not match")) {
-                return <div className='text-danger mt-1'>Mật khẩu không đúng</div>;
-            }
-            if (errors.password && errors.password.includes("required")) {
-                return <div className='text-danger mt-1'>Vui lòng nhập vào mật khẩu</div>;
-            }
-            return null;
-        };
-
-        if (isAuthenticated && !tutorialId) {
-            return <Redirect to='/' />;
-        } else if (isAuthenticated && tutorialId) {
-            return <Redirect to={`/tutorials/${tutorialId}`} />;
+    useEffect(() => {
+        if (errors.email && errors.email.includes("required")) {
+            setEmailErrMsg("Vui lòng nhập email");
+        } else if (errors.email && errors.email.includes("invalid")) {
+            setEmailErrMsg("Email không hợp lệ");
+        } else if (errors.email && errors.email.includes("not found")) {
+            setEmailErrMsg("Email không tồn tại");
         } else {
-            return (
-                <div className='bg-primary sign-in'>
-                    <div className='container h-100 w-100 position-relative'>
-                        <div className='form-container px-3 d-flex flex-column bg-white'>
-                            <h3 className='mb-3 text-center'>Đăng Nhập</h3>
-                            <Form onSubmit={this.submitForm}>
-                                <FormGroup>
-                                    <label htmlFor='email'>Email</label>
-                                    <FormInput
-                                        invalid={errors.email ? true : false}
-                                        placeholder='Email'
-                                        id='email'
-                                        onChange={this.handleEmail}
-                                    />
-                                    <EmailError />
-                                </FormGroup>
-                                <FormGroup>
-                                    <label htmlFor='password'>Password</label>
-                                    <FormInput
-                                        invalid={errors.password ? true : false}
-                                        type='password'
-                                        placeholder='Password'
-                                        id='password'
-                                        onChange={this.handlePassword}
-                                    />
-                                    <PasswordError />
-                                </FormGroup>
-                                <Button block disabled={isLoading} type='submit' onClick={this.submitForm}>
-                                    {isLoading ? "Đang Đăng Nhập ..." : "Đăng Nhập"}
-                                </Button>
-                                <div className='mt-3 text-center'>
-                                    <span>Bạn chưa có tài khoản? </span>
-                                    <Link className='text-decoration-none' to='/sign-up'>
-                                        Đăng Ký
-                                    </Link>
-                                </div>
-                            </Form>
-                        </div>
-                    </div>
-                </div>
-            );
+            setEmailErrMsg("");
         }
-    }
-}
+    }, [errors.email]);
 
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.user.isAuthenticated,
-    errorsFromStore: state.user.errors,
-    isLoading: state.user.isLoading,
-});
+    useEffect(() => {
+        if (errors.password && errors.password.includes("required")) {
+            setPasswordErrMsg("Vui lòng nhập mật khẩu");
+        } else if (errors.password && errors.password.includes("incorrect")) {
+            setPasswordErrMsg("Mật khẩu không đúng");
+        } else {
+            setPasswordErrMsg("");
+        }
+    }, [errors.password]);
 
-const mapDispatchToProps = (dispatch) => ({
-    signInReq: (user) => dispatch(signIn(user)),
-    clearErrorsReq: () => dispatch(clearErrors()),
-});
+    return (
+        <div className='login pt-5 pb-6 px-0 mb-5 has-background-white'>
+            <div className='form-container px-4'>
+                <div className='title px-4 has-text-centered'>Đăng Nhập vào Tài Khoản Của Bạn</div>
+                <form className='mb-3'>
+                    <div className='field'>
+                        <label className='label'>Email</label>
+                        <div className='control'>
+                            <input
+                                ref={emailRef}
+                                className='input is-medium'
+                                type='email'
+                                placeholder='Địa chỉ email'
+                            />
+                        </div>
+                        {emailErrMsg ? <p className='has-text-danger mt-1'>{emailErrMsg}</p> : null}
+                    </div>
+                    <div className='field mb-3'>
+                        <label className='label'>Mật khẩu</label>
+                        <div className='control'>
+                            <input
+                                ref={passwordRef}
+                                className='input is-medium'
+                                type='password'
+                                placeholder='Mật khẩu'
+                            />
+                        </div>
+                        {passwordErrMsg ? <p className='has-text-danger mt-1'>{passwordErrMsg}</p> : null}
+                    </div>
+                    <button
+                        disabled={isLoading}
+                        className={`button is-primary is-fullwidth is-medium ${isLoading ? "is-loading" : ""}`}
+                        type='submit'
+                        onClick={submitFormLogin}
+                    >
+                        Đăng Nhập
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
+export default SignInPage;
