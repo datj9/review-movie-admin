@@ -15,9 +15,12 @@ class UploadAdapter {
         formData.append("image", file);
 
         try {
-            const data = await api.post("/tutorials/upload-image", formData, "formData");
-            data.default = data.linkUrl;
-            return data;
+            const { data, status } = await api.post("/news/upload-image", formData, "formData");
+
+            if (status === 200 || status === 201) {
+                data.default = data.linkUrl;
+                return data;
+            }
         } catch (error) {
             return error;
         }

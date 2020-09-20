@@ -8,6 +8,8 @@ import checkToken from "./utils/checkToken";
 import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
 import MoviePage from "./pages/MoviePage";
+import NewsListPage from "./pages/NewsListPage";
+import CreateNewsPage from "./pages/CreateNewsPage";
 
 class App extends Component {
     authorize = (Page) => {
@@ -34,6 +36,8 @@ class App extends Component {
             <Router>
                 <Switch>
                     <Route exact path='/' render={() => this.authorize(MoviePage)} />
+                    <Route exact path='/news' render={() => this.authorize(NewsListPage)} />
+                    <Route exact path='/create-news' render={() => this.authorize(CreateNewsPage)} />
                 </Switch>
             </Router>
         );

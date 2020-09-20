@@ -17,10 +17,10 @@ const fetchNewsListFailure = (err) => ({
     payload: err,
 });
 
-export const fetchNewsList = (pageIndex = 1, pageSize = 9) => async (dispatch) => {
+export const fetchNewsList = (pageSize = 9, pageIndex = 1) => async (dispatch) => {
     dispatch(fetchNewsListStart());
 
-    const { data, status } = await api.get(`/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}`);
+    const { data, status } = await api.get(`/news?pageSize=${pageSize}&&pageIndex=${pageIndex}`);
 
     if (status === 200) {
         dispatch(fetchNewsListSuccess(data));
@@ -33,14 +33,14 @@ const fetchNewsStart = () => ({
     type: actionTypes.FETCH_NEWS_START,
 });
 
-const fetchNewsSuccess = (tutorial) => ({
+const fetchNewsSuccess = (news) => ({
     type: actionTypes.FETCH_NEWS_SUCCESS,
-    payload: tutorial,
+    payload: news,
 });
 
-export const fetchNews = (tutorialId) => async (dispatch) => {
+export const fetchNews = (newsId) => async (dispatch) => {
     dispatch(fetchNewsStart());
-    const { data, status } = await api.get(`/tutorials/${tutorialId}?reqFromAd=true`);
+    const { data, status } = await api.get(`/news/${newsId}?reqFromAd=true`);
 
     if (status === 200) {
         dispatch(fetchNewsSuccess(data));
@@ -78,9 +78,9 @@ export const createNewsStart = () => ({
     type: actionTypes.CREATE_NEWS_START,
 });
 
-export const createNewsSuccess = (tutorial) => ({
+export const createNewsSuccess = (news) => ({
     type: actionTypes.CREATE_NEWS_SUCCESS,
-    payload: tutorial,
+    payload: news,
 });
 
 export const createNewsFail = (err) => ({
@@ -88,9 +88,9 @@ export const createNewsFail = (err) => ({
     payload: err,
 });
 
-export const createNews = (tutorial) => async (dispatch) => {
+export const createNews = (news) => async (dispatch) => {
     dispatch(createNewsStart());
-    const { data, status } = await api.post("/tutorials", tutorial);
+    const { data, status } = await api.post("/news", news);
 
     if (status === 201) {
         dispatch(createNewsSuccess(data));
@@ -110,6 +110,7 @@ const deleteNewsSuccess = (tutorialId) => ({
 
 export const deleteNews = (newsId) => async (dispatch) => {
     dispatch(deleteNewsStart());
+
     const { status } = await api.delete(`/news/${newsId}`);
 
     if (status === 200) {
@@ -132,7 +133,7 @@ const updateTutorialFail = (err) => ({
 
 export const updateTutorial = (tutorialId, updateData) => async (dispatch) => {
     dispatch(updateTutorialStart());
-    const data = await api.put(`/tutorials/${tutorialId}`, updateData);
+    const data = await api.put(`/news/${tutorialId}`, updateData);
     if (data?.id) {
         dispatch(updateTutorialSuccess());
     } else {
@@ -157,20 +158,4 @@ const clearErrorsAndLinkStart = () => ({
 export const clearErrorsAndLink = () => (dispatch) => {
     dispatch(clearNews());
     dispatch(clearErrorsAndLinkStart());
-};
-
-const searchNewsListStart = () => ({
-    type: actionTypes.SEARCH_NEWS_LIST_START,
-});
-const searchNewsListSuccess = (tutorials) => ({
-    type: actionTypes.SEARCH_NEWS_LIST_SUCCESS,
-    payload: tutorials,
-});
-export const searchNewsList = (technologies) => async (dispatch) => {
-    dispatch(searchNewsListStart());
-
-    const data = await api.get(`/tutorials?tags=${JSON.stringify(technologies)}`);
-    if (Array.isArray(data)) {
-        dispatch(searchNewsListSuccess(data));
-    }
 };

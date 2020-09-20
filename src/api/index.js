@@ -21,6 +21,7 @@ const BaseApi = () => {
                 const { status, data } = await api.get(endpoint);
                 return { status, data };
             } catch (error) {
+                console.log(error.response);
                 const { status, data } = error.response;
                 return { status, data };
             }

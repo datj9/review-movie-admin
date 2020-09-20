@@ -2,9 +2,6 @@ import * as actionTypes from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
-    isSearching: false,
-    isFetchingMore: false,
-    loaded: false,
     newsList: [],
     total: 0,
     news: {},
@@ -20,22 +17,19 @@ export default (state = INITIAL_STATE, action) => {
         case actionTypes.FETCH_NEWS_LIST_START:
             return {
                 ...state,
-                [state.newsList.length === 0 ? "isLoading" : "isFetchingMore"]: true,
+                isLoading: true,
             };
         case actionTypes.FETCH_NEWS_LIST_SUCCESS:
             return {
                 ...state,
-                [state.newsList.length === 0 ? "isLoading" : "isFetchingMore"]: false,
-                newsList:
-                    state.newsList.length === 0
-                        ? action.payload.newsList
-                        : state.newsList.concat(action.payload.newsList),
+                isLoading: false,
+                newsList: action.payload.listNews,
                 total: action.payload.total,
             };
         case actionTypes.FETCH_NEWS_LIST_FAILURE:
             return {
                 ...state,
-                [state.newsList.length === 0 ? "isLoading" : "isFetchingMore"]: false,
+                isLoading: false,
                 error: action.payload,
             };
         case actionTypes.FETCH_NEWS_START:

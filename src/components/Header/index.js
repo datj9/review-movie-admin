@@ -38,7 +38,11 @@ const Header = () => {
             </div>
 
             <div id='navbarBasicExample' className='navbar-menu'>
-                <div className='navbar-start'>{/* <NavLink className='navbar-item'>Home</NavLink> */}</div>
+                <div className='navbar-start'>
+                    <NavLink to='/news' className='navbar-item'>
+                        Tin Tức
+                    </NavLink>
+                </div>
 
                 <div className='navbar-end'>
                     <div className='navbar-item'>
