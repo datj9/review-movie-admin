@@ -118,26 +118,27 @@ export const deleteNews = (newsId) => async (dispatch) => {
     }
 };
 
-const updateTutorialStart = () => ({
+const updateNewsStart = () => ({
     type: actionTypes.UPDATE_NEWS_START,
 });
 
-const updateTutorialSuccess = () => ({
+const updateNewsSuccess = () => ({
     type: actionTypes.UPDATE_NEWS_SUCCESS,
 });
 
-const updateTutorialFail = (err) => ({
+const updateNewsFail = (err) => ({
     type: actionTypes.UPDATE_NEWS_FAILURE,
     payload: err,
 });
 
-export const updateTutorial = (tutorialId, updateData) => async (dispatch) => {
-    dispatch(updateTutorialStart());
-    const data = await api.put(`/news/${tutorialId}`, updateData);
-    if (data?.id) {
-        dispatch(updateTutorialSuccess());
+export const updateTutorial = (newsId, updateData) => async (dispatch) => {
+    dispatch(updateNewsStart());
+    const { data, status } = await api.put(`/news/${newsId}`, updateData);
+
+    if (status === 200) {
+        dispatch(updateNewsSuccess());
     } else {
-        dispatch(updateTutorialFail(data));
+        dispatch(updateNewsFail(data));
     }
 };
 

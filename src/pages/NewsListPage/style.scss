@@ -1,6 +1,12 @@
 .news-page {
     margin-top: 6rem;
 
+    .table {
+        .buttons {
+            justify-content: flex-end;
+        }
+    }
+
     .modal-body-news-content {
         img {
             width: 100%;

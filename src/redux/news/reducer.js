@@ -40,7 +40,7 @@ export default (state = INITIAL_STATE, action) => {
         case actionTypes.FETCH_NEWS_SUCCESS:
             return {
                 ...state,
-                newsList: action.payload,
+                news: action.payload,
                 isLoading: false,
             };
         case actionTypes.CLEAR_NEWS:

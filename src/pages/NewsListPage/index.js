@@ -70,16 +70,27 @@ export default function NewsListPage() {
                             <tr key={news.id}>
                                 <th>{(pageIndex - 1) * pageSize + i + 1}</th>
                                 <td>{isLoading ? "" : news.title}</td>
-                                <td>{isLoading ? "" : news.author}</td>
+                                <td>{isLoading ? "" : news.author.name}</td>
                                 <td>{isLoading ? "" : parse(news.content.slice(0, 50))}</td>
                                 <td>{isLoading ? "" : dayjs(news.createdAt).format("HH:mm DD-MM-YYYY")}</td>
                                 <td>
                                     {isLoading ? (
                                         ""
                                     ) : (
-                                        <button onClick={() => handleOpenContent(news)} className='button is-primary'>
-                                            Xem nội dung
-                                        </button>
+                                        <div className='buttons'>
+                                            <button
+                                                onClick={() => handleOpenContent(news)}
+                                                className='button is-primary'
+                                            >
+                                                Xem nội dung
+                                            </button>
+                                            <button className='button'>
+                                                {news.isPublic ? "Hủy public" : "Public"}
+                                            </button>
+                                            <Link className='button' to={`/update-news/${news.id}`}>
+                                                Cập nhật
+                                            </Link>
+                                        </div>
                                     )}
                                 </td>
                                 <div className={`modal ${openModal ? "is-active" : ""}`}>

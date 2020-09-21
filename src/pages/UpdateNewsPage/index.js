@@ -1,14 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.scss";
 import CustomEditor from "../../components/CustomEditor";
 import { useDispatch, useSelector } from "react-redux";
-import { createNews, uploadImage } from "../../redux/news/actions";
+import { createNews, fetchNews, uploadImage } from "../../redux/news/actions";
+import { useParams } from "react-router-dom";
 
-export default function CreateNewsPage() {
+export default function UpdateNewsPage() {
     const { linkUrl } = useSelector((state) => state.news);
     const dispatch = useDispatch();
     const [editorValue, setEditorValue] = useState("");
     const titleRef = useRef();
+    const { newsId } = useParams();
 
     const handleEditorValue = (event, editor) => {
         const data = editor.getData();
@@ -17,13 +19,17 @@ export default function CreateNewsPage() {
     const handleFileChange = (e) => {
         dispatch(uploadImage(e.target.files[0]));
     };
-    const submitCreateNews = () => {
+    const submitUpdateNews = () => {
         const title = titleRef.current.value;
         dispatch(createNews({ title, content: editorValue, image: linkUrl }));
     };
 
+    useEffect(() => {
+        dispatch(fetchNews(newsId));
+    }, [dispatch, newsId]);
+
     return (
-        <div className='create-news-page px-3'>
+        <div className='update-news-page px-3'>
             <div className='field'>
                 <label className='label'>Tựa đề</label>
                 <div className='control'>
@@ -40,8 +46,8 @@ export default function CreateNewsPage() {
                 ) : null}
             </div>
             <CustomEditor editorValue={editorValue} handleEditorValue={handleEditorValue} />
-            <button onClick={submitCreateNews} className='button is-primary mt-5'>
-                Tạo bài viết
+            <button onClick={submitUpdateNews} className='button is-primary mt-5'>
+                Cập nhật bài viết
             </button>
         </div>
     );

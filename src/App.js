@@ -9,7 +9,8 @@ import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
 import MoviePage from "./pages/MoviePage";
 import NewsListPage from "./pages/NewsListPage";
-import CreateNewsPage from "./pages/CreateNewsPage";
+import CreateNews from "./pages/CreateNewsPage";
+import UpdateNews from "./pages/UpdateNewsPage";
 
 class App extends Component {
     authorize = (Page) => {
@@ -37,7 +38,8 @@ class App extends Component {
                 <Switch>
                     <Route exact path='/' render={() => this.authorize(MoviePage)} />
                     <Route exact path='/news' render={() => this.authorize(NewsListPage)} />
-                    <Route exact path='/create-news' render={() => this.authorize(CreateNewsPage)} />
+                    <Route exact path='/create-news' render={() => this.authorize(CreateNews)} />
+                    <Route exact path='/update-news/:newsId' render={() => this.authorize(UpdateNews)} />
                 </Switch>
             </Router>
         );
