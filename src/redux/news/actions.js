@@ -103,9 +103,9 @@ const deleteNewsStart = () => ({
     type: actionTypes.DELETE_NEWS_START,
 });
 
-const deleteNewsSuccess = (tutorialId) => ({
+const deleteNewsSuccess = (newsId) => ({
     type: actionTypes.DELETE_NEWS_SUCCESS,
-    payload: tutorialId,
+    payload: newsId,
 });
 
 export const deleteNews = (newsId) => async (dispatch) => {
@@ -131,7 +131,7 @@ const updateNewsFail = (err) => ({
     payload: err,
 });
 
-export const updateTutorial = (newsId, updateData) => async (dispatch) => {
+export const updateNews = (newsId, updateData) => async (dispatch) => {
     dispatch(updateNewsStart());
     const { data, status } = await api.put(`/news/${newsId}`, updateData);
 

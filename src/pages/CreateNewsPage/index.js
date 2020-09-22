@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import CustomEditor from "../../components/CustomEditor";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,19 +7,18 @@ import { createNews, uploadImage } from "../../redux/news/actions";
 export default function CreateNewsPage() {
     const { linkUrl } = useSelector((state) => state.news);
     const dispatch = useDispatch();
-    const [editorValue, setEditorValue] = useState("");
-    const titleRef = useRef();
+    const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
 
     const handleEditorValue = (event, editor) => {
         const data = editor.getData();
-        setEditorValue(data);
+        setContent(data);
     };
     const handleFileChange = (e) => {
         dispatch(uploadImage(e.target.files[0]));
     };
     const submitCreateNews = () => {
-        const title = titleRef.current.value;
-        dispatch(createNews({ title, content: editorValue, image: linkUrl }));
+        dispatch(createNews({ title, content, image: linkUrl }));
     };
 
     return (
@@ -27,7 +26,13 @@ export default function CreateNewsPage() {
             <div className='field'>
                 <label className='label'>Tựa đề</label>
                 <div className='control'>
-                    <input ref={titleRef} className='input is-medium' type='text' placeholder='Tựa đề' />
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className='input is-medium'
+                        type='text'
+                        placeholder='Tựa đề'
+                    />
                 </div>
             </div>
             <div className='field'>
@@ -39,7 +44,7 @@ export default function CreateNewsPage() {
                     </div>
                 ) : null}
             </div>
-            <CustomEditor editorValue={editorValue} handleEditorValue={handleEditorValue} />
+            <CustomEditor editorValue={content} handleEditorValue={handleEditorValue} />
             <button onClick={submitCreateNews} className='button is-primary mt-5'>
                 Tạo bài viết
             </button>

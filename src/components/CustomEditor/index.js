@@ -59,7 +59,7 @@ const editorConfiguration = {
     },
 };
 
-export default function CustomEditor({ editorValue, handleEditorValue }) {
+export default function CustomEditor({ editorValue = "", handleEditorValue }) {
     return (
         <CKEditor
             editor={ClassicEditor}

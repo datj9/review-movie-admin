@@ -2,11 +2,12 @@ import * as actionTypes from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
+    isDeleting: false,
+    isUploading: false,
     newsList: [],
     total: 0,
     news: {},
     linkUrl: "",
-    isUploading: false,
     error: {},
     errors: {},
     message: "",
@@ -85,13 +86,13 @@ export default (state = INITIAL_STATE, action) => {
         case actionTypes.DELETE_NEWS_START:
             return {
                 ...state,
-                isLoading: true,
+                isDeleting: true,
             };
         case actionTypes.DELETE_NEWS_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                newsList: state.newsList.filter((tutorial) => tutorial.id !== action.payload),
+                isDeleting: false,
+                newsList: state.newsList.filter((news) => news.id !== action.payload),
             };
         case actionTypes.UPDATE_NEWS_START:
             return {

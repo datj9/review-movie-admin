@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchNewsList } from "../../redux/news/actions";
+import { deleteNews, fetchNewsList } from "../../redux/news/actions";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import dayjs from "dayjs";
@@ -57,9 +57,7 @@ export default function NewsListPage() {
                         <th>
                             <abbr title='Tựa đề'>Tựa đề</abbr>
                         </th>
-
                         <th>Tác giả</th>
-                        <th>Nội dung</th>
                         <th>Tạo vào</th>
                         <th></th>
                     </tr>
@@ -71,7 +69,6 @@ export default function NewsListPage() {
                                 <th>{(pageIndex - 1) * pageSize + i + 1}</th>
                                 <td>{isLoading ? "" : news.title}</td>
                                 <td>{isLoading ? "" : news.author.name}</td>
-                                <td>{isLoading ? "" : parse(news.content.slice(0, 50))}</td>
                                 <td>{isLoading ? "" : dayjs(news.createdAt).format("HH:mm DD-MM-YYYY")}</td>
                                 <td>
                                     {isLoading ? (
@@ -84,9 +81,16 @@ export default function NewsListPage() {
                                             >
                                                 Xem nội dung
                                             </button>
+                                            <button
+                                                className='button is-danger'
+                                                onClick={() => dispatch(deleteNews(news.id))}
+                                            >
+                                                Xóa
+                                            </button>
                                             <button className='button'>
                                                 {news.isPublic ? "Hủy public" : "Public"}
                                             </button>
+
                                             <Link className='button' to={`/update-news/${news.id}`}>
                                                 Cập nhật
                                             </Link>

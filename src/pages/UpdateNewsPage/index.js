@@ -1,39 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import CustomEditor from "../../components/CustomEditor";
 import { useDispatch, useSelector } from "react-redux";
-import { createNews, fetchNews, uploadImage } from "../../redux/news/actions";
+import { updateNews, fetchNews, uploadImage } from "../../redux/news/actions";
 import { useParams } from "react-router-dom";
 
 export default function UpdateNewsPage() {
-    const { linkUrl } = useSelector((state) => state.news);
+    const { linkUrl, news } = useSelector((state) => state.news);
     const dispatch = useDispatch();
-    const [editorValue, setEditorValue] = useState("");
-    const titleRef = useRef();
     const { newsId } = useParams();
+
+    const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
+    const [image, setImage] = useState("");
 
     const handleEditorValue = (event, editor) => {
         const data = editor.getData();
-        setEditorValue(data);
+        setContent(data);
     };
     const handleFileChange = (e) => {
         dispatch(uploadImage(e.target.files[0]));
     };
     const submitUpdateNews = () => {
-        const title = titleRef.current.value;
-        dispatch(createNews({ title, content: editorValue, image: linkUrl }));
+        dispatch(updateNews({ title, content, image: linkUrl ? linkUrl : image }));
     };
 
     useEffect(() => {
         dispatch(fetchNews(newsId));
     }, [dispatch, newsId]);
 
+    useEffect(() => {
+        setTitle(news.title);
+        setContent(news.content);
+        setImage(news.image);
+    }, [news.title, news.image, news.content]);
+
     return (
         <div className='update-news-page px-3'>
             <div className='field'>
                 <label className='label'>Tựa đề</label>
                 <div className='control'>
-                    <input ref={titleRef} className='input is-medium' type='text' placeholder='Tựa đề' />
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className='input is-medium'
+                        type='text'
+                        placeholder='Tựa đề'
+                    />
                 </div>
             </div>
             <div className='field'>
@@ -45,7 +58,7 @@ export default function UpdateNewsPage() {
                     </div>
                 ) : null}
             </div>
-            <CustomEditor editorValue={editorValue} handleEditorValue={handleEditorValue} />
+            <CustomEditor editorValue={content} handleEditorValue={handleEditorValue} />
             <button onClick={submitUpdateNews} className='button is-primary mt-5'>
                 Cập nhật bài viết
             </button>
